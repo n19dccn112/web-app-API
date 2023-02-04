@@ -18,13 +18,13 @@ import org.springframework.web.client.RestTemplate;
 @SpringBootApplication
 @OpenAPIDefinition(
         info = @Info(
-                title = "Web Food API docs",
+                title = "Web sale smartphone API docs",
                 description = "" +
-                        "sss",
+                        "d19cqcnpm01-n",
                 contact = @Contact(
-                        name = "Toai Tran",
+                        name = "",
                         url = "",
-                        email = "toaitran223@gmail.com"
+                        email = "mynth30@gmail.com"
                 ),
                 license = @License(
                         name = "MIT Licence",
