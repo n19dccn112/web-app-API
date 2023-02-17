@@ -29,7 +29,7 @@ import org.springframework.web.client.RestTemplate;
                 license = @License(
                         name = "MIT Licence",
                         url = "https://github.com/thombergs/code-examples/blob/master/LICENSE")),
-        servers = @Server(url = "http://localhost:8080"),
+        servers = @Server(url = "/"),
         security = {@SecurityRequirement(name = "bearerToken")}
 
 )

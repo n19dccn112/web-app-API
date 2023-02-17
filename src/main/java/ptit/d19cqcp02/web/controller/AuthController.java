@@ -9,7 +9,7 @@ import ptit.d19cqcp02.web.service.impl.UserDetailServiceImpl;
 
 import javax.validation.Valid;
 
-@CrossOrigin(origins = "*", maxAge = 3600)
+@CrossOrigin(origins = "*", maxAge = 3600) //cho phép http, get post..
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
