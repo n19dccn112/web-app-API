@@ -18,7 +18,7 @@ public class RateDTO {
     private Integer point;
     private String comment;
     @NotNull
-    private Long productId;
+    private Long productProductId;
     @NotNull
     private Long userId;
     @JsonIgnore

@@ -28,12 +28,12 @@ public class CategoryServiceImpl implements IBaseService<CateDTO, Long>, IModelM
         return createFromEntities(repository.findAll());
     }
 
+
     @Override
     public CateDTO findById(Long id) {
-        Optional<Category> cate = Optional.ofNullable(repository.findById(id))
+        Category cate = repository.findById(id)
                 .orElseThrow(() -> new NotFoundException(Category.class, id));
-
-        return createFromE(cate.get());
+        return createFromE(cate);
     }
 
     @Override
@@ -67,11 +67,10 @@ public class CategoryServiceImpl implements IBaseService<CateDTO, Long>, IModelM
     @Override
     public Category updateEntity(Category entity, CateDTO dto) {
         if (entity != null && dto != null) {
-            entity.setCategoryName(dto.getCateName());
+            entity.setCategoryName(dto.getCategoryName());
             entity.setDescription(dto.getDescription());
             //entity.setId(dto.getId());
         }
-
         return entity;
     }
 }

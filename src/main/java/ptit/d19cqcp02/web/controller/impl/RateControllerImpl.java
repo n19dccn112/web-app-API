@@ -39,7 +39,7 @@ public class RateControllerImpl {//implements IBaseController<RateDTO, RateKey, 
     @PutMapping("/{productId}-{userId}")
     public RateDTO update(@PathVariable Long productId, @PathVariable Long userId, @RequestBody RateDTO dto) {
         dto.setUserId(userId);
-        dto.setProductId(productId);
+        dto.setProductProductId(productId);
         return service.update(productId, userId, dto);
     }
 

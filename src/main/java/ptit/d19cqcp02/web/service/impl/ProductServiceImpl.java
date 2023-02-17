@@ -86,8 +86,8 @@ public class ProductServiceImpl implements IBaseService<ProductDTO, Long>, IMode
 
     public Product updateEntity(Product entity, ProductDTO dto) {
         if (entity != null && dto != null) {
-            entity.setProductDescription(dto.getProductDesc());
-            entity.setProductPrice(dto.getPrice());
+            entity.setProductDescription(dto.getProductDescription());
+            entity.setProductPrice(dto.getProductPrice());
             entity.setProductRemain(dto.getRemain());
             entity.setProductName(dto.getProductName());
             entity.setFeatures(findAllFeature(dto.getFeatureIds()));

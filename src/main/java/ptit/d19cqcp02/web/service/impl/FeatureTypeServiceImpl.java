@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class FeatureTypeServiceImpl implements IBaseService<FeatureTypeDTO, String>, IModelMapper<FeatureTypeDTO, FeatureType> {
+public class FeatureTypeServiceImpl implements IBaseService<FeatureTypeDTO, Long>, IModelMapper<FeatureTypeDTO, FeatureType> {
     private final IFeatureTypeRepository repository;
     private final ModelMapper modelMapper;
     private final IFeatureRepository featureRepository;
@@ -31,10 +31,10 @@ public class FeatureTypeServiceImpl implements IBaseService<FeatureTypeDTO, Stri
     }
 
     @Override
-    public FeatureTypeDTO findById(String id) {
-        Optional<FeatureType> entity = Optional.of(repository.findById(id.toUpperCase())
-                .orElseThrow(() -> new NotFoundException(FeatureType.class, id.toUpperCase())));
-        return createFromE(entity.get());
+    public FeatureTypeDTO findById(Long id) {
+        FeatureType entity = repository.findById(id)
+                .orElseThrow(() -> new NotFoundException(FeatureType.class, id));
+        return createFromE(entity);
     }
 
     @Override
@@ -43,14 +43,14 @@ public class FeatureTypeServiceImpl implements IBaseService<FeatureTypeDTO, Stri
     }
 
     @Override
-    public FeatureTypeDTO update(String id, FeatureTypeDTO dto) {
-        Optional<FeatureType> entity = repository.findById(id.toUpperCase());
+    public FeatureTypeDTO update(Long id, FeatureTypeDTO dto) {
+        Optional<FeatureType> entity = repository.findById(id);
         entity.orElseThrow(() -> new NotFoundException(FeatureType.class, id));
         return createFromE(repository.save(updateEntity(entity.get(), dto)));
     }
 
     @Override
-    public FeatureTypeDTO delete(String id) {
+    public FeatureTypeDTO delete(Long id) {
         Optional<FeatureType> entity = Optional.ofNullable(repository.findById(id)
                 .orElseThrow(() -> new NotFoundException(FeatureType.class, id)));
         repository.delete(entity.get());
@@ -71,8 +71,8 @@ public class FeatureTypeServiceImpl implements IBaseService<FeatureTypeDTO, Stri
 
     public FeatureType updateEntity(FeatureType entity, FeatureTypeDTO dto) {
         if (entity != null && dto != null) {
-            entity.setFeatureTypeName(dto.getName());
-            entity.setFeatureTypeUnit(dto.getUnit());
+            entity.setFeatureTypeName(dto.getFeatureTypeName());
+            entity.setFeatureTypeUnit(dto.getFeatureTypeUnit());
             //entity.setId(dto.getId());
 
         }

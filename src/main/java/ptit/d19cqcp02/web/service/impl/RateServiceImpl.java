@@ -51,9 +51,9 @@ public class RateServiceImpl implements IBaseService<RateDTO, RateId>, IModelMap
     }
 
     public RateDTO save(RateDTO rateDTO) {
-        Optional<Rate> entity = repository.findById_Product_ProductIdAndId_User_Id(rateDTO.getProductId(), rateDTO.getUserId());
+        Optional<Rate> entity = repository.findById_Product_ProductIdAndId_User_Id(rateDTO.getProductProductId(), rateDTO.getUserId());
         if (entity.isPresent())
-            throw new EntityPrimaryKeyExistsException(Rate.class, rateDTO.getProductId() + "-" + rateDTO.getUserId());
+            throw new EntityPrimaryKeyExistsException(Rate.class, rateDTO.getProductProductId() + "-" + rateDTO.getUserId());
         //entity.get().setKey(findKey(rateDTO));
         return createFromE(repository.save(createFromD(rateDTO)));
     }
@@ -73,9 +73,11 @@ public class RateServiceImpl implements IBaseService<RateDTO, RateId>, IModelMap
     }
 
     public RateDTO createFromE(Rate entity) {
+        // TypeMap< Rate,RateDTO> typeMap = this.modelMapper.createTypeMap( Rate.class,RateDTO.class);
+        //typeMap.addMappings(modelMapper-> {modelMapper.skip(RateDTO::setProductProductId);});
         RateDTO dto = modelMapper.map(entity, RateDTO.class);
         dto.setUser(entity.getId().getUser());
-        dto.setProductId(entity.getId().getProduct().getProductId());
+        dto.setProductProductId(entity.getId().getProduct().getProductId());
         dto.setUserId(entity.getId().getUser().getId());
         return dto;
     }
@@ -89,7 +91,7 @@ public class RateServiceImpl implements IBaseService<RateDTO, RateId>, IModelMap
     }
 
     private RateId findId(RateDTO dto) {
-        return findId(dto.getProductId(), dto.getUserId());
+        return findId(dto.getProductProductId(), dto.getUserId());
     }
 
     public RateDTO findById(Long productId, Long userId) {

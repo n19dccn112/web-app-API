@@ -59,12 +59,12 @@ public class OrderServiceImpl implements IBaseService<OrderDTO, Long>, IModelMap
     entity = repository.findByOrderTime(date).get();
     OrderDetailDTO detail = null;
     // OrderDetailKey key = null;
-    for (Map.Entry<Long, Integer> e : t.getDetails().entrySet()) {
-      detail = new OrderDetailDTO();
-      detail.setProductId(e.getKey());
-      detail.setOrderId(entity.getOrderId());
-      detail.setAmount(e.getValue());
-      orderDetailRepository.save(detail);
+    for (Map.Entry<Long, Integer> e : t.getOrderDetails().entrySet()) {
+        detail = new OrderDetailDTO();
+        detail.setProductId(e.getKey());
+        detail.setOrderId(entity.getOrderId());
+        detail.setAmount(e.getValue());
+        orderDetailRepository.save(detail);
 
     }
     return createFromE(entity);
@@ -89,7 +89,7 @@ public class OrderServiceImpl implements IBaseService<OrderDTO, Long>, IModelMap
 
   public Order updateEntity(Order entity, OrderDTO dto) {
     if (entity != null && dto != null) {
-      entity.setOrderAddress(dto.getAddress());
+        entity.setOrderAddress(dto.getOrderAddress());
       //entity.setOrderid(dto.getOrderId());
       //entity.setStatus(dto.getStatus());
       //entity.setTime(dto.getTime());

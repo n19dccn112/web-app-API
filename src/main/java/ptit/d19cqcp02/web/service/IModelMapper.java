@@ -11,16 +11,9 @@ public interface IModelMapper<D, E> {
 
     E updateEntity(E entity, D dto);
 
-    default List<D> createFromEntities(final Collection<E> entities) {
-        return entities.stream()
+    default List<D> createFromEntities(final Collection<E> entities) { // collection: cho phép nhiều kiểu dư liệu, cho phép kế thừa
+        return entities.stream() //Stream đại diện cho một chuỗi các giá trị và phục vụ nhiều chức năng tổng hợp
                 .map(this::createFromE)
                 .collect(Collectors.toList());
     }
-
-    default List<E> createFromDtos(final Collection<D> dtos) {
-        return dtos.stream()
-                .map(this::createFromD)
-                .collect(Collectors.toList());
-    }
-
 }

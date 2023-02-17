@@ -11,11 +11,11 @@ import javax.validation.constraints.NotNull;
 @Getter
 @Setter
 public class FeatureDTO {
-    private Long featureId;
+    private Long featureFeatureId;
     @NotNull
     @NotBlank
-    private String featureTypeId;
-    private String specific;
+    private Long featureTypeId;
+    private String featureSpecific;
     @JsonIgnore
     private FeatureType featureType;
     private Integer point;

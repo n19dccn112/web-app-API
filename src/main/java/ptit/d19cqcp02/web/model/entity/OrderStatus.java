@@ -4,5 +4,5 @@ import lombok.Getter;
 
 @Getter
 public enum OrderStatus {
-    CART, PREPARE, SHIPPING, SUCCESS, CONFIRM, CANCELED
+    CART, PREPARE, SHIPPING, SUCCESS, CONFIRM, CANCELED;
 }

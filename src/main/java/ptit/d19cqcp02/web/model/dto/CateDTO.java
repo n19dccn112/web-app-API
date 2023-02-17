@@ -11,9 +11,8 @@ import javax.validation.constraints.NotNull;
 @Setter
 @Schema(name = "Category")
 public class CateDTO {
-    private Long id;
+    private Long cateId;
     @NotNull
-    private String cateName;
+    private String categoryName;
     private String description;
-    private Integer amountProducts;
 }

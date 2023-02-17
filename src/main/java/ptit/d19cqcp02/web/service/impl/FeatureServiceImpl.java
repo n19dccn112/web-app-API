@@ -77,8 +77,8 @@ public class FeatureServiceImpl implements IBaseService<FeatureDTO, Long>, IMode
   public Feature updateEntity(Feature entity, FeatureDTO dto) {
     if (entity != null && dto != null) {
       entity.setFeatureType(typeRepository.findById(dto.getFeatureTypeId())
-              .orElseThrow(() -> new NotFoundException(FeatureType.class, dto.getFeatureId())));
-      entity.setFeatureSpecific(dto.getSpecific());
+              .orElseThrow(() -> new NotFoundException(FeatureType.class, dto.getFeatureFeatureId())));
+      entity.setFeatureSpecific(dto.getFeatureSpecific());
       //entity.setFeatureId(dto.getFeatureId());
 
     }

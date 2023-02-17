@@ -16,12 +16,12 @@ import java.util.Set;
 public class ProductDTO {
     private Long productId;
     @DecimalMin(value = "1")
-    private BigDecimal price;
+    private BigDecimal productPrice;
     @NotNull
     @NotBlank
     private String productName;
 
-    private String productDesc;
+    private String productDescription;
 
     @NotNull
     private Long categoryId;
@@ -37,7 +37,7 @@ public class ProductDTO {
     @DecimalMin("0")
     private Integer remain;
 
-    private Date updateDate;
+    private Date productUpDate;
     private Set<Long> featureIds;
     @JsonIgnore
     private Set<String> featureTypes;

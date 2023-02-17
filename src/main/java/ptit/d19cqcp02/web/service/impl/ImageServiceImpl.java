@@ -30,6 +30,10 @@ public class ImageServiceImpl implements IBaseService<ImageDTO, Long>, IModelMap
         return createFromEntities(repository.findAll());
     }
 
+    public List<ImageDTO> findAll(Long productId) {
+        return createFromEntities(repository.findAllByProductProductId(productId));
+    }
+
     public ImageDTO findById(Long imageId) {
         return createFromE(repository.findById(imageId).get());
     }
@@ -64,20 +68,18 @@ public class ImageServiceImpl implements IBaseService<ImageDTO, Long>, IModelMap
 
     public Image updateEntity(Image entity, ImageDTO dto) {
         if (entity != null && dto != null) {
-            entity.setImageAlt(dto.getAlt());
-            entity.setImageHeight(dto.getHeight());
+            entity.setImageAlt(dto.getImageAlt());
+            entity.setImageHeight(dto.getImageHeight());
             //entity.setId(dto.getId());
             entity.setProduct(productRepository.findById(dto.getProductId())
                     .orElseThrow(() -> new NotFoundException(Product.class, dto.getProductId())));
-            entity.setImageUrl(dto.getUrl());
-            entity.setImageWidth(dto.getWidth());
+            entity.setImageUrl(dto.getImageUrl());
+            entity.setImageWidth(dto.getImageWidth());
 
         }
 
         return entity;
     }
 
-    public List<ImageDTO> findAll(Long productId) {
-        return createFromEntities(repository.findAllByProductProductId(productId));
-    }
+
 }

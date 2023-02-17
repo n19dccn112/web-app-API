@@ -8,10 +8,10 @@ import javax.validation.constraints.NotNull;
 import java.util.Optional;
 
 @Repository
-public interface IFeatureTypeRepository extends JpaRepository<FeatureType, String> {
+public interface IFeatureTypeRepository extends JpaRepository<FeatureType, Long> {
     @Override
     @NotNull
-    Optional<FeatureType> findById(String s);
+    Optional<FeatureType> findById(Long s);
 
     @Override
     <S extends FeatureType> S save(S entity);

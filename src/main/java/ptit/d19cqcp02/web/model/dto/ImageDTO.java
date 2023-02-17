@@ -9,14 +9,14 @@ import javax.validation.constraints.NotNull;
 @Getter
 @Setter
 public class ImageDTO {
-    private Long id;
+    private Long imageId;
     @NotNull
-    private String url;
-    private String alt;
+    private String imageUrl;
+    private String imageAlt;
     @DecimalMin(value = "0")
-    private Integer width;
+    private Integer imageWidth;
     @DecimalMin(value = "0")
-    private Integer height;
+    private Integer imageHeight;
     @NotNull
     private Long productId;
 }

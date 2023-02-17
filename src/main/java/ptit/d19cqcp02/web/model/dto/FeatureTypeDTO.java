@@ -8,8 +8,8 @@ import javax.validation.constraints.NotNull;
 @Getter
 @Setter
 public class FeatureTypeDTO {
-    private String id;
+    private Long featureTypeId;
     @NotNull
-    private String name;
-    private String unit;
+    private String featureTypeName;
+    private String featureTypeUnit;
 }
