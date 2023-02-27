@@ -37,17 +37,13 @@ public class RateServiceImpl implements IBaseService<RateDTO, RateId>, IModelMap
     }
 
     public RateDTO findById(RateId rateId) {
-//        Optional<Rate> entity = repository.findById(rateKey);
-//        entity.orElseThrow(()-> new NotFoundException(FeatureType.class,rateKey.getProduct().getProductid()));
-//        return createFromE(entity.get());
-        return null;
+        Rate entity = repository.findById(rateId);
+        return createFromE(entity);
     }
 
     public RateDTO update(RateId rateId, RateDTO rateDTO) {
-//        Optional<Rate> entity = repository.findById(rateKey);
-//        entity.orElseThrow(()-> new NotFoundException(FeatureType.class,rateKey.getProduct().getProductid()));
-//        return createFromE(repository.save(updateEntity(entity.get(),rateDTO)));
-        return null;
+        Rate entity = repository.findById(rateId);
+        return createFromE(repository.save(updateEntity(entity, rateDTO)));
     }
 
     public RateDTO save(RateDTO rateDTO) {
@@ -59,11 +55,9 @@ public class RateServiceImpl implements IBaseService<RateDTO, RateId>, IModelMap
     }
 
     public RateDTO delete(RateId rateId) {
-//        Optional<Rate> entity = Optional.ofNullable(repository.findById(rateKey)
-//                .orElseThrow(() -> new NotFoundException(Feature.class, rateKey.getProduct().getProductid())));
-//        repository.delete(entity.get());
-//        return createFromE(entity.get());
-        return null;
+        Rate entity = repository.findById(rateId);
+        repository.delete(entity);
+        return createFromE(entity);
     }
 
     public Rate createFromD(RateDTO dto) {

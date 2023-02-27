@@ -31,14 +31,16 @@ public class CategoryServiceImpl implements IBaseService<CateDTO, Long>, IModelM
 
     @Override
     public CateDTO findById(Long id) {
-        Category cate = repository.findById(id)
-                .orElseThrow(() -> new NotFoundException(Category.class, id));
-        return createFromE(cate);
+        Optional<Category> cate = repository.findById(id);
+        cate.orElseThrow(() -> new NotFoundException(Category.class, id));
+        return createFromE(cate.get());
     }
 
     @Override
-    public CateDTO update(Long aLong, CateDTO cateDTO) {
-        return null;
+    public CateDTO update(Long id, CateDTO dto) {
+        Optional<Category> entity = repository.findById(id);
+        entity.orElseThrow(() -> new NotFoundException(Category.class, id));
+        return createFromE(repository.save(updateEntity(entity.get(), dto)));
     }
 
     @Override

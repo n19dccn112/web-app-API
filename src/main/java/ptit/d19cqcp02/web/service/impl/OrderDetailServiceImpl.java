@@ -43,17 +43,15 @@ public class OrderDetailServiceImpl implements IBaseService<OrderDetailDTO, Orde
     }
 
     public OrderDetailDTO findById(OrderDetailId orderDetailId) {
-//        Optional<OrderDetail> entity = repository.findById(orderDetailKey);
-//        entity.orElseThrow(()-> new NotFoundException(OrderDetail.class,orderDetailKey.getOrder().getOrderid()));
-//        return createFromE(entity.get());
-        return null;
+        Optional<OrderDetail> entity = repository.findById(orderDetailId);
+        entity.orElseThrow(() -> new NotFoundException(OrderDetail.class, orderDetailId.getOrder().getOrderId()));
+        return createFromE(entity.get());
     }
 
     public OrderDetailDTO update(OrderDetailId orderDetailId, OrderDetailDTO orderDetailDTO) {
-//        Optional<OrderDetail> entity = repository.findById(orderDetailKey);
-//        entity.orElseThrow(()-> new NotFoundException(OrderDetail.class,orderDetailKey.getOrder().getOrderid()));
-//        return createFromE(repository.save(updateEntity(entity.get(),orderDetailDTO)));
-        return null;
+        Optional<OrderDetail> entity = repository.findById(orderDetailId);
+        entity.orElseThrow(() -> new NotFoundException(OrderDetail.class, orderDetailId.getOrder().getOrderId()));
+        return createFromE(repository.save(updateEntity(entity.get(), orderDetailDTO)));
     }
 
     @Transactional
@@ -76,11 +74,10 @@ public class OrderDetailServiceImpl implements IBaseService<OrderDetailDTO, Orde
     }
 
     public OrderDetailDTO delete(OrderDetailId orderDetailId) {
-//        Optional<OrderDetail> entity = Optional.ofNullable(repository.findById(orderDetailKey)
-//                .orElseThrow(() -> new NotFoundException(OrderDetail.class, "id")));
-//        repository.delete(entity.get());
-//        return createFromE(entity.get());
-        return null;
+        Optional<OrderDetail> entity = Optional.ofNullable(repository.findById(orderDetailId)
+                .orElseThrow(() -> new NotFoundException(OrderDetail.class, "id")));
+        repository.delete(entity.get());
+        return createFromE(entity.get());
     }
 
     private OrderDetailId findKey(OrderDetailDTO dto) {
