@@ -86,7 +86,6 @@ public class ProductServiceImpl implements IBaseService<ProductDTO, Long>, IMode
         dto.setCategoryId(entity.getCategory().getCateId());
         dto.setCreateDate(entity.getProductCreateDate());
         dto.setRemain(entity.getProductRemain());
-        dto.setImages(imageRepository.findAllByProductProductId(entity.getProductId()));
         dto.setFeaturesName(entity.getFeatures().stream().map(Feature::getFeatureSpecific).collect(Collectors.joining(" ")));
         dto.setFeatureIds(entity.getFeatures().stream().map(Feature::getFeatureFeatureId).collect(Collectors.toSet()));
         dto.setFeatureTypes(entity.getFeatures().stream().map((e) -> e.getFeatureType().getFeatureTypeName()).collect(Collectors.toSet()));

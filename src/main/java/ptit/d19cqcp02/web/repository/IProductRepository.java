@@ -12,6 +12,9 @@ import java.util.Set;
 public interface IProductRepository extends JpaRepository<Product, Long> {
     List<Product> findAllByCategoryCateId(Long cateId);
 
+    @Query(value = "SELECT * from products", nativeQuery = true)
+    List<Product> findAll();
+
     List<Product> findByProductNameContaining(String productName);
 
     @Query(value = "SELECT * from products p where  p.id in (SELECT fd.product_id from feature_detail fd where fd.feature_id in ?1) and p.category_id = ?2", nativeQuery = true)
