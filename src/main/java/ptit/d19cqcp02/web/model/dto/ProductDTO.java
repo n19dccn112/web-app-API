@@ -24,7 +24,7 @@ public class ProductDTO {
     private String productDescription;
 
     @NotNull
-    private Long categoryId;
+    private Long cateId;
 
 
     private String categoryName;
@@ -32,10 +32,10 @@ public class ProductDTO {
     private String featuresName;
 
 
-    private Date createDate;
+    private Date productCreateDate;
     @NotNull
     @DecimalMin("0")
-    private Integer remain;
+    private Integer productRemain;
 
     private Date productUpDate;
     private Set<Long> featureIds;

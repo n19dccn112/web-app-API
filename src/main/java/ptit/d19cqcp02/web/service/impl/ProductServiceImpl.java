@@ -49,7 +49,7 @@ public class ProductServiceImpl implements IBaseService<ProductDTO, Long>, IMode
         entity.get().setFeatures(findAllFeature(productDTO.getFeatureIds()));
         entity.get().setImages(imageRepository.findAllByProductProductId(id));
         entity.get().setProductDescription(productDTO.getProductDescription());
-        entity.get().setProductCreateDate(productDTO.getCreateDate());
+        entity.get().setProductCreateDate(productDTO.getProductCreateDate());
         entity.get().setProductUpDate(productDTO.getProductUpDate());
         entity.get().setProductPrice(productDTO.getProductPrice());
         entity.get().setProductName(productDTO.getProductName());
@@ -58,10 +58,12 @@ public class ProductServiceImpl implements IBaseService<ProductDTO, Long>, IMode
 
     public ProductDTO save(ProductDTO productDTO) {
         Product entity = createFromD(productDTO);
-        if (productDTO.getCreateDate() == null) {
+        Category category = categoryRepository.findById(productDTO.getCateId()).orElseThrow(() -> new NotFoundException(Category.class, ""));
+        entity.setCategory(category);
+        if (productDTO.getProductCreateDate() == null) {
             entity.setProductCreateDate(new Date());
         }
-        return createFromE(repository.save(createFromD(productDTO)));
+        return createFromE(repository.save(entity));
     }
 
     @Transactional
@@ -82,6 +84,8 @@ public class ProductServiceImpl implements IBaseService<ProductDTO, Long>, IMode
 
     public ProductDTO createFromE(Product entity) {
         ProductDTO dto = modelMapper.map(entity, ProductDTO.class);
+        dto.setCategoryName(entity.getCategory().getCategoryName());
+        dto.setCateId(entity.getCategory().getCateId());
         dto.setFeaturesName(entity.getFeatures().stream().map(Feature::getFeatureSpecific).collect(Collectors.joining(" ")));
         dto.setFeatureIds(entity.getFeatures().stream().map(Feature::getFeatureFeatureId).collect(Collectors.toSet()));
         dto.setFeatureTypes(entity.getFeatures().stream().map((e) -> e.getFeatureType().getFeatureTypeName()).collect(Collectors.toSet()));
@@ -92,11 +96,11 @@ public class ProductServiceImpl implements IBaseService<ProductDTO, Long>, IMode
         if (entity != null && dto != null) {
             entity.setProductDescription(dto.getProductDescription());
             entity.setProductPrice(dto.getProductPrice());
-            entity.setProductRemain(dto.getRemain());
+            entity.setProductRemain(dto.getProductRemain());
             entity.setProductName(dto.getProductName());
             entity.setFeatures(findAllFeature(dto.getFeatureIds()));
-            entity.setCategory(categoryRepository.findById(dto.getCategoryId())
-                    .orElseThrow(() -> new NotFoundException(Category.class, dto.getCategoryId())));
+            entity.setCategory(categoryRepository.findById(dto.getCateId())
+                    .orElseThrow(() -> new NotFoundException(Category.class, dto.getCateId())));
 
         }
 
