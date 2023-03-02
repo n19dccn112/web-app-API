@@ -18,13 +18,5 @@ public class FeatureDTO {
     private String featureSpecific;
     @JsonIgnore
     private FeatureType featureType;
-    private Integer point;
-
-    public String getTypeName() {
-        return featureType.getFeatureTypeName();
-    }
-
-    public String getTypeUnit() {
-        return featureType.getFeatureTypeUnit();
-    }
+    private Integer featurePoint;
 }

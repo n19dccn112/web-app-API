@@ -45,14 +45,6 @@ public class ProductServiceImpl implements IBaseService<ProductDTO, Long>, IMode
     public ProductDTO update(Long id, ProductDTO productDTO) {
         Optional<Product> entity = repository.findById(id);
         entity.orElseThrow(() -> new NotFoundException(Product.class, id));
-        entity.get().setProductUpDate(new Date());
-        entity.get().setFeatures(findAllFeature(productDTO.getFeatureIds()));
-        entity.get().setImages(imageRepository.findAllByProductProductId(id));
-        entity.get().setProductDescription(productDTO.getProductDescription());
-        entity.get().setProductCreateDate(productDTO.getProductCreateDate());
-        entity.get().setProductUpDate(productDTO.getProductUpDate());
-        entity.get().setProductPrice(productDTO.getProductPrice());
-        entity.get().setProductName(productDTO.getProductName());
         return createFromE(repository.save(updateEntity(entity.get(), productDTO)));
     }
 

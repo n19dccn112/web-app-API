@@ -78,8 +78,8 @@ public class RateServiceImpl implements IBaseService<RateDTO, RateId>, IModelMap
 
     public Rate updateEntity(Rate entity, RateDTO dto) {
         if (entity != null && dto != null) {
-            entity.setRateComment(dto.getComment());
-            entity.setRatePoint(dto.getPoint());
+            entity.setRateComment(dto.getRateComment());
+            entity.setRatePoint(dto.getRatePoint());
         }
         return entity;
     }

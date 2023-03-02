@@ -15,8 +15,8 @@ public class RateDTO {
     @NotNull
     @DecimalMin("0")
     @DecimalMax("5")
-    private Integer point;
-    private String comment;
+    private Integer ratePoint;
+    private String rateComment;
     @NotNull
     private Long productProductId;
     @NotNull

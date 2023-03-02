@@ -183,10 +183,11 @@ public class UserDetailServiceImpl implements IBaseService<UserDetailDTO, Long>,
   }
 
   @Override
-  public UserDetailDTO save(UserDetailDTO signUpRequest) {
-    User entity = createFromD(signUpRequest);
+  public UserDetailDTO save(UserDetailDTO dto) {
+    User entity = createFromD(dto);
+    entity.setRole(roleRepository.findByName(dto.getRole()).orElseThrow(() -> new NotFoundException(User.class, dto.getId())));
     repository.save(entity);
-    updateDetail(signUpRequest);
+    updateDetail(dto);
     return createFromE(entity);
   }
 
@@ -205,7 +206,7 @@ public class UserDetailServiceImpl implements IBaseService<UserDetailDTO, Long>,
   @Override
   public User createFromD(UserDetailDTO dto) {
     User user = modelMapper.map(dto, User.class);
-    user.setRole(getRole(dto.getRole()));
+//    user.setRole(getRole(dto.getRole()));
 
     user.setPassword(encoder.encode(dto.getPassword()));
     return user;
@@ -216,7 +217,7 @@ public class UserDetailServiceImpl implements IBaseService<UserDetailDTO, Long>,
     UserDetailDTO dto = modelMapper.map(entity, UserDetailDTO.class);
     UserDetail detail = this.getDetail(entity.getId());
     dto.setAddress(detail.getAddress());
-    dto.setRole(entity.getRole().getName().name());
+    dto.setRole(entity.getRole().getName());
     dto.setFirstName(detail.getFirstName());
     dto.setLastName(detail.getLastName());
     dto.setPassword("");
@@ -226,7 +227,7 @@ public class UserDetailServiceImpl implements IBaseService<UserDetailDTO, Long>,
   @Override
   public User updateEntity(User entity, UserDetailDTO dto) {
     if (entity != null && dto != null) {
-      entity.setRole(getRole(dto.getRole()));
+      entity.setRole(roleRepository.findByName(dto.getRole()).orElseThrow(() -> new NotFoundException(User.class, dto.getId())));
       if (dto.getPassword() != null)
         entity.setPassword(encoder.encode(dto.getPassword()));
       if (dto.getUsername() != null)

@@ -2,6 +2,7 @@ package ptit.d19cqcp02.web.model.dto;
 
 import lombok.Getter;
 import lombok.Setter;
+import ptit.d19cqcp02.web.model.RoleName;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -21,7 +22,7 @@ public class UserDetailDTO {
     @Email
     private String email;
 
-    private String role;
+    private RoleName role;
 
     private String password;
 
