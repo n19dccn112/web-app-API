@@ -16,6 +16,7 @@ public interface IOrderDetailRepository extends JpaRepository<OrderDetail, Order
             nativeQuery = true)
     OrderDetail findByProductIdAndOrderId(Long productId, Long orderId);
 
+
     Optional<OrderDetail> findById_Product_ProductIdAndId_Order_OrderId(Long productid, Long orderid);
 
 

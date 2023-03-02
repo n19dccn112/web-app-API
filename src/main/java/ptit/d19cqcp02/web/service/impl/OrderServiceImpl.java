@@ -7,30 +7,31 @@ import ptit.d19cqcp02.web.model.dto.OrderDTO;
 import ptit.d19cqcp02.web.model.dto.OrderDetailDTO;
 import ptit.d19cqcp02.web.model.entity.Order;
 import ptit.d19cqcp02.web.model.entity.OrderStatus;
+import ptit.d19cqcp02.web.repository.IOrderDetailRepository;
 import ptit.d19cqcp02.web.repository.IOrderRepository;
 import ptit.d19cqcp02.web.service.IBaseService;
 import ptit.d19cqcp02.web.service.IModelMapper;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class OrderServiceImpl implements IBaseService<OrderDTO, Long>, IModelMapper<OrderDTO, Order> {
   private final IOrderRepository repository;
   private final ModelMapper modelMapper;
-  private final OrderDetailServiceImpl orderDetailRepository;
+  private final IOrderDetailRepository orderDetailRepository;
+  private final OrderDetailServiceImpl orderDetailService;
 
-  public OrderServiceImpl(IOrderRepository repository, ModelMapper modelMapper, OrderDetailServiceImpl orderDetailRepository) {
+  public OrderServiceImpl(IOrderRepository repository, ModelMapper modelMapper, IOrderDetailRepository orderDetailRepository, OrderDetailServiceImpl orderDetailService) {
     this.repository = repository;
     this.modelMapper = modelMapper;
-
     this.orderDetailRepository = orderDetailRepository;
+    this.orderDetailService = orderDetailService;
   }
 
+
   public List<OrderDTO> findAll() {
-    return this.createFromEntities(this.repository.findAll());
+    List<OrderDTO> dtos = this.createFromEntities(this.repository.findAll());
+    return dtos;
   }
 
   public List<OrderDTO> findAll(Long userId) {
@@ -38,9 +39,9 @@ public class OrderServiceImpl implements IBaseService<OrderDTO, Long>, IModelMap
   }
 
   public OrderDTO findById(Long id) {
-    Optional<Order> entity = Optional.ofNullable(repository.findById(id)
-            .orElseThrow(() -> new NotFoundException(Order.class, id)));
-    return createFromE(entity.get());
+    Order entity = repository.findById(id)
+            .orElseThrow(() -> new NotFoundException(Order.class, id));
+    return createFromE(entity);
   }
 
   public OrderDTO update(Long id, OrderDTO dto) {
@@ -63,8 +64,8 @@ public class OrderServiceImpl implements IBaseService<OrderDTO, Long>, IModelMap
         detail = new OrderDetailDTO();
         detail.setProductId(e.getKey());
         detail.setOrderId(entity.getOrderId());
-        detail.setAmount(e.getValue());
-        orderDetailRepository.save(detail);
+      detail.setAmount(e.getValue());
+      orderDetailService.save(detail);
 
     }
     return createFromE(entity);
@@ -85,18 +86,14 @@ public class OrderServiceImpl implements IBaseService<OrderDTO, Long>, IModelMap
   public OrderDTO createFromE(Order entity) {
     OrderDTO dto = modelMapper.map(entity, OrderDTO.class);
     dto.setUserId(entity.getUser().getId());
-//    int mount_detail;
-//    if (entity.getOrderDetails()==null){
-//      mount_detail = 0;}
-//    else{
-//      mount_detail = entity.getOrderDetails().size();}
-//    for (int i=0; i<mount_detail; i++){
-//      Map<Long, Integer> map = new HashMap<>();
-//      map.put(entity.getOrderDetails().get(i).getId().getProduct().getProductId(),
-//              entity.getOrderDetails().get(i).getAmount());
-//      dto.setOrderDetails(map);
-//    }
     dto.setUserId(entity.getUser().getId());
+    entity.setOrderDetails(orderDetailRepository.findById_Order_OrderId(entity.getOrderId()));
+    Map<Long, Integer> map = new HashMap<>();
+    for (int i = 0; i < entity.getOrderDetails().size(); i++) {
+      map.put(entity.getOrderDetails().get(i).getId().getProduct().getProductId(),
+              entity.getOrderDetails().get(i).getAmount());
+      dto.setOrderDetails(map);
+    }
     return dto;
   }
 

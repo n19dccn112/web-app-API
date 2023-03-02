@@ -7,8 +7,8 @@ import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Getter
@@ -39,7 +39,7 @@ public class Order {
 
     @Transient
     @OneToMany
-    private Collection<OrderDetail> orderDetails;
+    private List<OrderDetail> orderDetails;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
