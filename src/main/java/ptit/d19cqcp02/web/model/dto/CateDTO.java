@@ -9,7 +9,7 @@ import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
-@Schema(name = "Category")
+@Schema(name = "CateDTO")
 public class CateDTO {
     private Long cateId;
     @NotNull
