@@ -118,7 +118,7 @@ public class UserDetailServiceImpl implements IBaseService<UserDetailDTO, Long>,
       role = userRole;
     } else {
 //      strRoles.forEach(role -> {
-      switch (role.getName().name().toLowerCase()) {
+      switch (strRole.toLowerCase()) {
         case "admin":
           Role adminRole = roleRepository.findByName(RoleName.ROLE_ADMIN)
                   .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
@@ -206,7 +206,7 @@ public class UserDetailServiceImpl implements IBaseService<UserDetailDTO, Long>,
   @Override
   public User createFromD(UserDetailDTO dto) {
     User user = modelMapper.map(dto, User.class);
-//    user.setRole(getRole(dto.getRole()));
+    user.setRole(getRole(dto.getRole().name()));
 
     user.setPassword(encoder.encode(dto.getPassword()));
     return user;

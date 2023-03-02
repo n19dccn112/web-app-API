@@ -84,6 +84,19 @@ public class OrderServiceImpl implements IBaseService<OrderDTO, Long>, IModelMap
 
   public OrderDTO createFromE(Order entity) {
     OrderDTO dto = modelMapper.map(entity, OrderDTO.class);
+    dto.setUserId(entity.getUser().getId());
+//    int mount_detail;
+//    if (entity.getOrderDetails()==null){
+//      mount_detail = 0;}
+//    else{
+//      mount_detail = entity.getOrderDetails().size();}
+//    for (int i=0; i<mount_detail; i++){
+//      Map<Long, Integer> map = new HashMap<>();
+//      map.put(entity.getOrderDetails().get(i).getId().getProduct().getProductId(),
+//              entity.getOrderDetails().get(i).getAmount());
+//      dto.setOrderDetails(map);
+//    }
+    dto.setUserId(entity.getUser().getId());
     return dto;
   }
 
