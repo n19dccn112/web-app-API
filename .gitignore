@@ -31,3 +31,18 @@ build/
 
 ### VS Code ###
 .vscode/
+/appsettings.Development.json
+/appsettings.json
+/Models/Category.cs
+/Controllers/CategoryController.cs
+/Models/Course.cs
+/Data/DataContext.cs
+/Properties/launchSettings.json
+/Program.cs
+/obj/project.assets.json
+/obj/project.nuget.cache
+/WebAPI.csproj
+/obj/WebAPI.csproj.nuget.dgspec.json
+/obj/WebAPI.csproj.nuget.g.props
+/obj/WebAPI.csproj.nuget.g.targets
+/sql/webdienthoai.sql
