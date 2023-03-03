@@ -15,15 +15,13 @@ public interface IFeatureRepository extends JpaRepository<Feature, Long> {
     @Override
     Optional<Feature> findById(Long aLong);
 
-    List<Feature> findAllByFeatureType_FeatureTypeId(String featureTypeId);
+    List<Feature> findAllByFeatureType_FeatureTypeId(Long featureTypeId);
 
     @Query(value = "SELECT * from features f where  f.feature_id in ?1", nativeQuery = true)
     List<Feature> findAllByFeaturesId(Set<Long> featureIds);
 
-    @Query(
-            value =
-                    "SELECT f.* from feature_detail fd join features f on f.feature_id = fd.feature_id"
-                            + " join featuretype ft on ft.id = f.feature_type_id where fd.product_id = ?1",
+    @Query(value = "SELECT f.* from feature_detail fd join features f on f.feature_id = fd.feature_id"
+            + " join featuretype ft on ft.id = f.feature_type_id where fd.product_id = ?1",
             nativeQuery = true)
     List<Feature> findAllByProductId(Long productId);
 

@@ -28,7 +28,6 @@ public class FeatureServiceImpl implements IBaseService<FeatureDTO, Long>, IMode
     this.typeRepository = typeRepository;
   }
 
-
   @Override
   public List<FeatureDTO> findAll() {
     return createFromEntities(repository.findAll());
@@ -87,7 +86,7 @@ public class FeatureServiceImpl implements IBaseService<FeatureDTO, Long>, IMode
     return entity;
   }
 
-  public List<FeatureDTO> findAll(String featureTypeId) {
+  public List<FeatureDTO> findAllft(Long featureTypeId) {
     return createFromEntities(repository.findAllByFeatureType_FeatureTypeId(featureTypeId));
   }
 
