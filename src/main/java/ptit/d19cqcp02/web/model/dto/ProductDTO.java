@@ -27,7 +27,7 @@ public class ProductDTO {
     private Long cateId;
 
 
-    private String categoryName;
+//    private String categoryName;
     @JsonIgnore
     private String featuresName;
 

@@ -76,7 +76,7 @@ public class ProductServiceImpl implements IBaseService<ProductDTO, Long>, IMode
 
     public ProductDTO createFromE(Product entity) {
         ProductDTO dto = modelMapper.map(entity, ProductDTO.class);
-        dto.setCategoryName(entity.getCategory().getCategoryName());
+//        dto.setCategoryName(entity.getCategory().getCategoryName());
         dto.setCateId(entity.getCategory().getCateId());
         dto.setFeaturesName(entity.getFeatures().stream().map(Feature::getFeatureSpecific).collect(Collectors.joining(" ")));
         dto.setFeatureIds(entity.getFeatures().stream().map(Feature::getFeatureFeatureId).collect(Collectors.toSet()));
