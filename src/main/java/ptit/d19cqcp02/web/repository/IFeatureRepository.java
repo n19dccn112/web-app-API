@@ -26,6 +26,6 @@ public interface IFeatureRepository extends JpaRepository<Feature, Long> {
     List<Feature> findAllByProductId(Long productId);
 
     @Modifying
-    @Query(value = "DELETE FROM feature_detail fd where fd.product_id=?1", nativeQuery = true)
+    @Query(value = "DELETE feature_detail where product_id=?1", nativeQuery = true)
     void deleteAllByProductId(Long productId);
 }

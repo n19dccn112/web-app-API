@@ -13,6 +13,6 @@ public interface IImageRepository extends JpaRepository<Image, Long> {
     List<Image> findAllByProductProductId(Long productId);
 
     @Modifying
-    @Query(value = "DELETE FROM image fd where fd.product_id=?1", nativeQuery = true)
+    @Query(value = "DELETE image where product_id=?1", nativeQuery = true)
     void deleteAllByProductId(Long productId);
 }

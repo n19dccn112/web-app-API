@@ -63,6 +63,7 @@ public class ControllerAdvisor extends ResponseEntityExceptionHandler {
         body.put("message", ex.getMessage());
         body.put("error", "SQL error!");
         body.put("status", HttpStatus.CONFLICT);
+        ex.printStackTrace();
         return new ResponseEntity<>(body, HttpStatus.CONFLICT);
     }
 
@@ -73,6 +74,7 @@ public class ControllerAdvisor extends ResponseEntityExceptionHandler {
         body.put("message", ex.getMessage());
         body.put("error", "Constraint Violation Error!");
         body.put("status", HttpStatus.CONFLICT);
+        ex.printStackTrace();
         return new ResponseEntity<>(body, HttpStatus.CONFLICT);
     }
 

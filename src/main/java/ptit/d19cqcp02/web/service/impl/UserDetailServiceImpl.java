@@ -87,27 +87,23 @@ public class UserDetailServiceImpl implements IBaseService<UserDetailDTO, Long>,
 
   public ResponseEntity<?> register(SignupRequest signUpRequest) {
     if (repository.existsByUsername(signUpRequest.getUsername())) {
-      return ResponseEntity
-              .badRequest()
-              .body(new MessageResponse("Error: Username is already taken!"));
+      return ResponseEntity.badRequest().body(new MessageResponse("Error: Username is already taken!"));
     }
-
     if (repository.existsByEmail(signUpRequest.getEmail())) {
-      return ResponseEntity
-              .badRequest()
-              .body(new MessageResponse("Error: Email is already in use!"));
+      return ResponseEntity.badRequest().body(new MessageResponse("Error: Email is already in use!"));
     }
 
     // Create new user's account
-    UserDetailDTO dto = modelMapper.map(signUpRequest, UserDetailDTO.class);
-    dto.setRole(signUpRequest.getRole());
-    save(dto);
+    Optional<UserDetailDTO> dto = Optional.ofNullable(modelMapper.map(
+            signUpRequest, UserDetailDTO.class));
+    dto.get().setRole(signUpRequest.getRole());
+    save(dto.orElseThrow(() -> new NotFoundException(UserDetailDTO.class, "null")));
     return new ResponseEntity<>(new MessageResponse("User registered successfully!"), HttpStatus.CREATED);
   }
 
   private Role getRole(String strRole) {
     Role role = new Role();
-    if (strRole == null) {
+    if (strRole == null || strRole.equals("")) {
       Role userRole = roleRepository.findByName(RoleName.ROLE_USER)
               .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
       role = userRole;
