@@ -100,6 +100,7 @@ public class UserDetailServiceImpl implements IBaseService<UserDetailDTO, Long>,
 
     // Create new user's account
     UserDetailDTO dto = modelMapper.map(signUpRequest, UserDetailDTO.class);
+    dto.setRole(signUpRequest.getRole());
     save(dto);
     return new ResponseEntity<>(new MessageResponse("User registered successfully!"), HttpStatus.CREATED);
   }
@@ -143,6 +144,10 @@ public class UserDetailServiceImpl implements IBaseService<UserDetailDTO, Long>,
 
   @Override
   public List<UserDetailDTO> findAll() {
+    return createFromEntities(repository.findAll());
+  }
+
+  public List<UserDetailDTO> findAllByProduct() {
     return createFromEntities(repository.findAll());
   }
 

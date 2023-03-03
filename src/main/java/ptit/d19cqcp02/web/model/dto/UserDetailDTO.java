@@ -16,15 +16,13 @@ public class UserDetailDTO {
     @NotBlank
     @Size(min = 3, max = 20)
     private String username;
+    private String password;
 
     @NotBlank
     @Size(max = 50)
     @Email
     private String email;
-
     private RoleName role;
-
-    private String password;
 
     private String firstName;
 
