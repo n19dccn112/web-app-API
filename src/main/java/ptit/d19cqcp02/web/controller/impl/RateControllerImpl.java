@@ -23,11 +23,14 @@ public class RateControllerImpl {//implements IBaseController<RateDTO, RateKey, 
     private RateServiceImpl service;
 
     @GetMapping("")
-    public List<RateDTO> getAll(@RequestParam(required = false) Long productId) {
-        if (productId == null)
-            return getService().findAll();
-        else
+    public List<RateDTO> getAll(@RequestParam(required = false) Long productId,
+                                @RequestParam(required = false) Long userId) {
+        if (productId != null)
             return getService().findAll(productId);
+        else if (userId != null)
+            return getService().findAllbyUserId(userId);
+        else
+            return getService().findAll();
     }
 
     @GetMapping("/{productId}-{userId}")

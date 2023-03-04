@@ -31,4 +31,5 @@ public class RateDTO {
     public String getUserEmail() {
         return user.getEmail();
     }
+
 }

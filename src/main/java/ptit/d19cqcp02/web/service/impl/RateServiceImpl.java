@@ -36,6 +36,14 @@ public class RateServiceImpl implements IBaseService<RateDTO, RateId>, IModelMap
         return createFromEntities(repository.findAll());
     }
 
+    public List<RateDTO> findAllbyUserId(Long UserId) {
+        return createFromEntities(repository.findAllById_UserId(UserId));
+    }
+
+    public List<RateDTO> findAll(Long productId) {
+        return createFromEntities(repository.findAllById_Product_ProductIdOrderByRatePoint(productId));
+    }
+
     public RateDTO findById(RateId rateId) {
         Rate entity = repository.findById(rateId);
         return createFromE(entity);
@@ -114,10 +122,6 @@ public class RateServiceImpl implements IBaseService<RateDTO, RateId>, IModelMap
                 .orElseThrow(() -> new NotFoundException(Rate.class, productId + "-" + userId)));
         repository.delete(entity.get());
         return createFromE(entity.get());
-    }
-
-    public List<RateDTO> findAll(Long productId) {
-        return createFromEntities(repository.findAllById_Product_ProductIdOrderByRatePoint(productId));
     }
 
 }
