@@ -13,12 +13,12 @@ public class OrderDTO {
     @NotNull
     private Long userId;
 
-    private String orderTime;
+//    private String orderTime;
     private String orderPhone;
     @NotNull
     private String orderAddress;
 
     private String orderStatus;
     @NotNull
-    private Map<Long, Integer> orderDetails;
+    private Map<Long, Integer> orderDetails; //prodcutid và amount
 }

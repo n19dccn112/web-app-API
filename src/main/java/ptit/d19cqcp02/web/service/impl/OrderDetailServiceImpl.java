@@ -87,8 +87,8 @@ public class OrderDetailServiceImpl implements IBaseService<OrderDetailDTO, Orde
 
     public OrderDetail createFromD(OrderDetailDTO dto) {
         OrderDetail entity = modelMapper.map(dto, OrderDetail.class);
-
         entity.setId(findKey(dto));
+//        entity.se
         return entity;
     }
 

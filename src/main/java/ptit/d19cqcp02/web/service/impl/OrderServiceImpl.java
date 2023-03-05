@@ -9,6 +9,7 @@ import ptit.d19cqcp02.web.model.entity.Order;
 import ptit.d19cqcp02.web.model.entity.OrderStatus;
 import ptit.d19cqcp02.web.repository.IOrderDetailRepository;
 import ptit.d19cqcp02.web.repository.IOrderRepository;
+import ptit.d19cqcp02.web.repository.IUserRepository;
 import ptit.d19cqcp02.web.service.IBaseService;
 import ptit.d19cqcp02.web.service.IModelMapper;
 
@@ -20,12 +21,14 @@ public class OrderServiceImpl implements IBaseService<OrderDTO, Long>, IModelMap
   private final ModelMapper modelMapper;
   private final IOrderDetailRepository orderDetailRepository;
   private final OrderDetailServiceImpl orderDetailService;
+  private final IUserRepository userRepository;
 
-  public OrderServiceImpl(IOrderRepository repository, ModelMapper modelMapper, IOrderDetailRepository orderDetailRepository, OrderDetailServiceImpl orderDetailService) {
+  public OrderServiceImpl(IOrderRepository repository, ModelMapper modelMapper, IOrderDetailRepository orderDetailRepository, OrderDetailServiceImpl orderDetailService, IUserRepository userRepository) {
     this.repository = repository;
     this.modelMapper = modelMapper;
     this.orderDetailRepository = orderDetailRepository;
     this.orderDetailService = orderDetailService;
+    this.userRepository = userRepository;
   }
 
 
@@ -50,20 +53,22 @@ public class OrderServiceImpl implements IBaseService<OrderDTO, Long>, IModelMap
     return createFromE(repository.save(updateEntity(entity.get(), dto)));
   }
 
-  public OrderDTO save(OrderDTO t) {
+  public OrderDTO save(OrderDTO dto) {
     Date date = new Date();
-    Order entity = createFromD(t);
+    Order entity = createFromD(dto);
     //if(t.getTime()==null)
     entity.setOrderTime(date);
     entity.setOrderStatus(OrderStatus.PREPARE);
+    entity.setUser(userRepository.getById(dto.getUserId()));
     repository.save(entity);
+
     entity = repository.findByOrderTime(date).get();
     OrderDetailDTO detail = null;
     // OrderDetailKey key = null;
-    for (Map.Entry<Long, Integer> e : t.getOrderDetails().entrySet()) {
-        detail = new OrderDetailDTO();
-        detail.setProductId(e.getKey());
-        detail.setOrderId(entity.getOrderId());
+    for (Map.Entry<Long, Integer> e : dto.getOrderDetails().entrySet()) {
+      detail = new OrderDetailDTO();
+      detail.setProductId(e.getKey());
+      detail.setOrderId(entity.getOrderId());
       detail.setAmount(e.getValue());
       orderDetailService.save(detail);
 
@@ -79,8 +84,10 @@ public class OrderServiceImpl implements IBaseService<OrderDTO, Long>, IModelMap
   }
 
   public Order createFromD(OrderDTO dto) {
-    Order entity = modelMapper.map(dto, Order.class);
-    return entity;
+    Optional<Order> entity = Optional.ofNullable(modelMapper.map(dto, Order.class));
+    entity.orElseThrow(() -> new NotFoundException(Order.class, dto.getOrderId()));
+    entity.get().setUser(userRepository.getById(dto.getUserId()));
+    return entity.get();
   }
 
   public OrderDTO createFromE(Order entity) {
