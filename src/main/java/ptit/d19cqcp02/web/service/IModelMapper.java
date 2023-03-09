@@ -4,7 +4,9 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public interface IModelMapper<D, E> {
+public interface
+
+IModelMapper<D, E> {
     E createFromD(D dto);
 
     D createFromE(E entity);
