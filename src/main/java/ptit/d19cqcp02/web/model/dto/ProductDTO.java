@@ -9,6 +9,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 @Setter
@@ -41,4 +42,11 @@ public class ProductDTO {
     private Set<Long> featureIds;
     @JsonIgnore
     private Set<String> featureTypes;
+    @JsonIgnore
+    private Set<Long> featureTypeId;
+    @JsonIgnore
+    private List<String> featureSpecific;
+    @JsonIgnore
+    private List<Long> featurePoint;
+    private List<String> imageUrls;
 }

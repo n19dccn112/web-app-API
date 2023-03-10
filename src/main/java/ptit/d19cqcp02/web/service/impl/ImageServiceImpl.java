@@ -43,6 +43,10 @@ public class ImageServiceImpl implements IBaseService<ImageDTO, Long>, IModelMap
         return createFromE(repository.save(createFromD(dto)));
     }
 
+    public void save(Product product) {
+        productRepository.save(product);
+    }
+
     public ImageDTO delete(Long id) {
         Optional<Image> entity = Optional.ofNullable(repository.findById(id)
                 .orElseThrow(() -> new NotFoundException(Image.class, id)));

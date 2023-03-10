@@ -8,6 +8,7 @@ import ptit.d19cqcp02.web.exception.NotFoundException;
 import ptit.d19cqcp02.web.model.dto.ProductDTO;
 import ptit.d19cqcp02.web.model.entity.Category;
 import ptit.d19cqcp02.web.model.entity.Feature;
+import ptit.d19cqcp02.web.model.entity.Image;
 import ptit.d19cqcp02.web.model.entity.Product;
 import ptit.d19cqcp02.web.repository.ICategoryRepository;
 import ptit.d19cqcp02.web.repository.IFeatureRepository;
@@ -16,10 +17,7 @@ import ptit.d19cqcp02.web.repository.IProductRepository;
 import ptit.d19cqcp02.web.service.IBaseService;
 import ptit.d19cqcp02.web.service.IModelMapper;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -35,10 +33,10 @@ public class ProductServiceImpl implements IBaseService<ProductDTO, Long>, IMode
         return featureRepository.findAllByFeaturesId(featureIds);
     }
 
-
     public ProductDTO findById(Long id) {
         Optional<Product> entity = repository.findById(id);
         entity.orElseThrow(() -> new NotFoundException(Product.class, id));
+        entity.get().setImages(imageRepository.findAllByProductProductId(id));
         return createFromE(entity.get());
     }
 
@@ -48,6 +46,7 @@ public class ProductServiceImpl implements IBaseService<ProductDTO, Long>, IMode
         return createFromE(repository.save(updateEntity(entity.get(), productDTO)));
     }
 
+    @Transactional
     public ProductDTO save(ProductDTO productDTO) {
         Product entity = createFromD(productDTO);
         Category category = categoryRepository.findById(productDTO.getCateId()).orElseThrow(() -> new NotFoundException(Category.class, ""));
@@ -55,7 +54,12 @@ public class ProductServiceImpl implements IBaseService<ProductDTO, Long>, IMode
         if (productDTO.getProductCreateDate() == null) {
             entity.setProductCreateDate(new Date());
         }
-        return createFromE(repository.save(entity));
+        repository.save(entity);
+        for (int i = 0; i < entity.getImages().size(); i++) {
+            Image image = entity.getImages().get(i);
+            imageRepository.save(image);
+        }
+        return createFromE(entity);
     }
 
     @Transactional
@@ -71,6 +75,15 @@ public class ProductServiceImpl implements IBaseService<ProductDTO, Long>, IMode
     public Product createFromD(ProductDTO dto) {
         Product entity = modelMapper.map(dto, Product.class);
         entity.setFeatures(findAllFeature(dto.getFeatureIds()));
+        List<Image> images = new ArrayList<>();
+        for (int i = 0; i < 2; i++) {
+            Image image = new Image();
+            String url = dto.getImageUrls().get(i);
+            image.setImageUrl(url);
+            image.setProduct(entity);
+            images.add(image);
+        }
+        entity.setImages(images);
         return entity;
     }
 
@@ -81,6 +94,10 @@ public class ProductServiceImpl implements IBaseService<ProductDTO, Long>, IMode
         dto.setFeaturesName(entity.getFeatures().stream().map(Feature::getFeatureSpecific).collect(Collectors.joining(" ")));
         dto.setFeatureIds(entity.getFeatures().stream().map(Feature::getFeatureFeatureId).collect(Collectors.toSet()));
         dto.setFeatureTypes(entity.getFeatures().stream().map((e) -> e.getFeatureType().getFeatureTypeName()).collect(Collectors.toSet()));
+        dto.setFeatureTypeId(entity.getFeatures().stream().map((e) -> e.getFeatureType().getFeatureTypeId()).collect(Collectors.toSet()));
+        dto.setFeatureSpecific(entity.getFeatures().stream().map(Feature::getFeatureSpecific).collect(Collectors.toList()));
+        dto.setFeaturePoint(entity.getFeatures().stream().map(Feature::getFeaturePoint).collect(Collectors.toList()));
+        dto.setImageUrls(entity.getImages().stream().map(Image::getImageUrl).collect(Collectors.toList()));
         return dto;
     }
 
@@ -95,33 +112,41 @@ public class ProductServiceImpl implements IBaseService<ProductDTO, Long>, IMode
                     .orElseThrow(() -> new NotFoundException(Category.class, dto.getCateId())));
 
         }
-
         return entity;
     }
 
     public List<ProductDTO> findAll(Long categoryId, Set<Long> featureIds) {
-
-        return createFromEntities(repository.findAllByFilter(featureIds, categoryId));
+        List<Product> products = repository.findAllByFilter(featureIds, categoryId);
+        setImage(products);
+        List<ProductDTO> productDTOS = createFromEntities(products);
+        return productDTOS;
     }
 
-
     public List<ProductDTO> findAll(Long categoryId) {
-
-        return createFromEntities(repository.findAllByCategoryCateId(categoryId));
-
-
+        List<Product> products = repository.findAllByCategoryCateId(categoryId);
+        setImage(products);
+        List<ProductDTO> productDTOS = createFromEntities(products);
+        return productDTOS;
     }
 
     public List<ProductDTO> findAllBySetProducts(Set<Long> productIds) {
-        return createFromEntities(repository.findAllByProductId(productIds));
+        List<Product> products = repository.findAllByProductId(productIds);
+        setImage(products);
+        List<ProductDTO> productDTOS = createFromEntities(products);
+        return productDTOS;
     }
 
     public List<ProductDTO> findAll(Set<Long> featureIds) {
-        return createFromEntities(repository.findAllByFeaturesId(featureIds));
+        List<Product> products = repository.findAllByFeaturesId(featureIds);
+        setImage(products);
+        List<ProductDTO> productDTOS = createFromEntities(products);
+        return productDTOS;
     }
-
     public List<ProductDTO> findAll() {
-        return createFromEntities(repository.findAll());
+        List<Product> products = repository.findAll();
+        setImage(products);
+        List<ProductDTO> productDTOS = createFromEntities(products);
+        return productDTOS;
     }
 
     private void setImage(final List<Product> products) {
