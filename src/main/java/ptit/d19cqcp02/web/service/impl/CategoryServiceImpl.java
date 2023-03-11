@@ -59,6 +59,7 @@ public class CategoryServiceImpl implements IBaseService<CateDTO, Long>, IModelM
     @Override
     public Category createFromD(CateDTO dto) {
         Category entity = modelMapper.map(dto, Category.class);
+        entity.setProducts(repository.findAllProductByCate(dto.getCateId()));
         return entity;
     }
 

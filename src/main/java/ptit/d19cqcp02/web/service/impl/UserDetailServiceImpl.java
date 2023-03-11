@@ -26,7 +26,6 @@ import ptit.d19cqcp02.web.service.IModelMapper;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class UserDetailServiceImpl implements IBaseService<UserDetailDTO, Long>, IModelMapper<UserDetailDTO, User> {
@@ -58,15 +57,14 @@ public class UserDetailServiceImpl implements IBaseService<UserDetailDTO, Long>,
     String jwt = jwtUtils.generateJwtToken(authentication);
 
     UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-    List<String> roles = userDetails.getAuthorities().stream()
-            .map(item -> item.getAuthority())
-            .collect(Collectors.toList());
+    String role = userDetails.getAuthorities().toString();
+//    System.out.println(role);
     UserDetail entity = this.getDetail(userDetails.getId());
     return ResponseEntity.ok(new JwtResponse(jwt,
             userDetails.getId(),
             userDetails.getUsername(),
             userDetails.getEmail(),
-            roles, entity.getFirstName() + " " + entity.getLastName()));
+            role, entity.getFirstName() + " " + entity.getLastName()));
   }
 
   public ResponseEntity<?> changePass(ChangePassRequest request) {

@@ -17,6 +17,7 @@ import ptit.d19cqcp02.web.service.IBaseService;
 import ptit.d19cqcp02.web.service.IModelMapper;
 
 import javax.transaction.Transactional;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -40,6 +41,12 @@ public class OrderDetailServiceImpl implements IBaseService<OrderDetailDTO, Orde
 
     public List<OrderDetailDTO> findAll(Long orderId) {
         return createFromEntities(repository.findById_Order_OrderId(orderId));
+    }
+
+    public List<OrderDetailDTO> findAll(Long orderId, Long productId) {
+        return createFromEntities((Collection<OrderDetail>)
+                repository.findById_Product_ProductIdAndId_Order_OrderId(productId, orderId
+                ).orElseThrow(() -> new NotFoundException(OrderDetailDTO.class, orderId)));
     }
 
     public OrderDetailDTO findById(OrderDetailId orderDetailId) {
