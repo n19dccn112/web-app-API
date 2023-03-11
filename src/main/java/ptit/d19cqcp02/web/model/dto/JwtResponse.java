@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 public class JwtResponse {
@@ -17,26 +19,26 @@ public class JwtResponse {
     private String email;
     private String fullName;
     //@JsonIgnore
-    private String role;
+    private List<String> roles;
 
     public JwtResponse() {
     }
 
-    public JwtResponse(String accessToken, Long id, String username, String email, String role) {
+    public JwtResponse(String accessToken, Long id, String username, String email, List<String> roles) {
 
         this.id = id;
         this.username = username;
         this.email = email;
-        this.role = role;
+        this.roles = roles;
         this.token = accessToken;
     }
 
-    public JwtResponse(String accessToken, Long id, String username, String email, String role, String fullName) {
+    public JwtResponse(String accessToken, Long id, String username, String email, List<String> roles, String fullName) {
 
         this.id = id;
         this.username = username;
         this.email = email;
-        this.role = role;
+        this.roles = roles;
         this.token = accessToken;
         this.fullName = fullName;
     }
