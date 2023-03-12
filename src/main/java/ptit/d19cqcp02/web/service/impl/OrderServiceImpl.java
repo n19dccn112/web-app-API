@@ -6,6 +6,7 @@ import ptit.d19cqcp02.web.exception.NotFoundException;
 import ptit.d19cqcp02.web.model.dto.OrderDTO;
 import ptit.d19cqcp02.web.model.dto.OrderDetailDTO;
 import ptit.d19cqcp02.web.model.entity.Order;
+import ptit.d19cqcp02.web.model.entity.OrderDetailView;
 import ptit.d19cqcp02.web.model.entity.OrderStatus;
 import ptit.d19cqcp02.web.repository.IOrderDetailRepository;
 import ptit.d19cqcp02.web.repository.IOrderRepository;
@@ -35,6 +36,10 @@ public class OrderServiceImpl implements IBaseService<OrderDTO, Long>, IModelMap
   public List<OrderDTO> findAll() {
     List<OrderDTO> dtos = this.createFromEntities(this.repository.findAll());
     return dtos;
+  }
+
+  public List<OrderDetailView> findAllView(Long userId) {
+    return this.repository.getAllOrderByUserId(userId);
   }
 
   public List<OrderDTO> findAll(Long userId) {
