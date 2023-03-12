@@ -11,6 +11,8 @@ public interface OrderDetailView {
 
     String getUsername();
 
+    String getEmail();
+
     String getLastName();
 
     String getUAddress();
