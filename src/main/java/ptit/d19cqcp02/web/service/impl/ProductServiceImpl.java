@@ -66,7 +66,11 @@ public class ProductServiceImpl implements IBaseService<ProductDTO, Long>, IMode
     public ProductDTO delete(Long id) {
         Optional<Product> entity = Optional.ofNullable(repository.findById(id)
                 .orElseThrow(() -> new NotFoundException(Product.class, id)));
+//        List<Image> images = new ArrayList<>();
+//        images = imageRepository.findAllByProductProductId(id);
+//        if (images!=null)
         imageRepository.deleteAllByProductId(id);
+
         featureRepository.deleteAllByProductId(id);
         repository.delete(entity.get());
         return createFromE(entity.get());
@@ -97,7 +101,8 @@ public class ProductServiceImpl implements IBaseService<ProductDTO, Long>, IMode
         dto.setFeatureTypeId(entity.getFeatures().stream().map((e) -> e.getFeatureType().getFeatureTypeId()).collect(Collectors.toSet()));
         dto.setFeatureSpecific(entity.getFeatures().stream().map(Feature::getFeatureSpecific).collect(Collectors.toList()));
         dto.setFeaturePoint(entity.getFeatures().stream().map(Feature::getFeaturePoint).collect(Collectors.toList()));
-        dto.setImageUrls(entity.getImages().stream().map(Image::getImageUrl).collect(Collectors.toList()));
+        if (dto.getImageUrls() != null)
+            dto.setImageUrls(entity.getImages().stream().map(Image::getImageUrl).collect(Collectors.toList()));
         return dto;
     }
 
