@@ -1,6 +1,5 @@
 package ptit.d19cqcp02.web.model.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -29,7 +28,7 @@ public class ProductDTO {
 
 
     private String categoryName;
-    @JsonIgnore
+//    @JsonIgnore
     private String featuresName;
 
 
@@ -40,13 +39,13 @@ public class ProductDTO {
 
     private Date productUpDate;
     private Set<Long> featureIds;
-    @JsonIgnore
+    //    @JsonIgnore
     private Set<String> featureTypes;
-    @JsonIgnore
+    //    @JsonIgnore
     private Set<Long> featureTypeId;
-    @JsonIgnore
+    //    @JsonIgnore
     private List<String> featureSpecific;
-    @JsonIgnore
+    //    @JsonIgnore
     private List<Long> featurePoint;
     private List<String> imageUrls;
 }
