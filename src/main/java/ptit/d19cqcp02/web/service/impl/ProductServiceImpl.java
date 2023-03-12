@@ -66,9 +66,6 @@ public class ProductServiceImpl implements IBaseService<ProductDTO, Long>, IMode
     public ProductDTO delete(Long id) {
         Optional<Product> entity = Optional.ofNullable(repository.findById(id)
                 .orElseThrow(() -> new NotFoundException(Product.class, id)));
-//        List<Image> images = new ArrayList<>();
-//        images = imageRepository.findAllByProductProductId(id);
-//        if (images!=null)
         imageRepository.deleteAllByProductId(id);
 
         featureRepository.deleteAllByProductId(id);
@@ -95,13 +92,15 @@ public class ProductServiceImpl implements IBaseService<ProductDTO, Long>, IMode
         ProductDTO dto = modelMapper.map(entity, ProductDTO.class);
         dto.setCategoryName(entity.getCategory().getCategoryName());
         dto.setCateId(entity.getCategory().getCateId());
-        dto.setFeaturesName(entity.getFeatures().stream().map(Feature::getFeatureSpecific).collect(Collectors.joining(" ")));
-        dto.setFeatureIds(entity.getFeatures().stream().map(Feature::getFeatureFeatureId).collect(Collectors.toSet()));
-        dto.setFeatureTypes(entity.getFeatures().stream().map((e) -> e.getFeatureType().getFeatureTypeName()).collect(Collectors.toSet()));
-        dto.setFeatureTypeId(entity.getFeatures().stream().map((e) -> e.getFeatureType().getFeatureTypeId()).collect(Collectors.toSet()));
-        dto.setFeatureSpecific(entity.getFeatures().stream().map(Feature::getFeatureSpecific).collect(Collectors.toList()));
-        dto.setFeaturePoint(entity.getFeatures().stream().map(Feature::getFeaturePoint).collect(Collectors.toList()));
-        if (dto.getImageUrls() != null)
+        if (entity.getFeatures().size() != 0) {
+            dto.setFeaturesName(entity.getFeatures().stream().map(Feature::getFeatureSpecific).collect(Collectors.joining(" ")));
+            dto.setFeatureIds(entity.getFeatures().stream().map(Feature::getFeatureFeatureId).collect(Collectors.toSet()));
+            dto.setFeatureTypes(entity.getFeatures().stream().map((e) -> e.getFeatureType().getFeatureTypeName()).collect(Collectors.toSet()));
+            dto.setFeatureTypeId(entity.getFeatures().stream().map((e) -> e.getFeatureType().getFeatureTypeId()).collect(Collectors.toSet()));
+            dto.setFeatureSpecific(entity.getFeatures().stream().map(Feature::getFeatureSpecific).collect(Collectors.toList()));
+            dto.setFeaturePoint(entity.getFeatures().stream().map(Feature::getFeaturePoint).collect(Collectors.toList()));
+        }
+        if (entity.getImages() != null)
             dto.setImageUrls(entity.getImages().stream().map(Image::getImageUrl).collect(Collectors.toList()));
         return dto;
     }
