@@ -70,43 +70,64 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         // assets - trang hình ảnh
         web.ignoring()
                 .antMatchers(
-                        "/**",
-                        "/finishChangePassword");
+                        "/api/auth/signin", "/api/auth/signup", "/api/auth/changePass",
+                        "/swagger-ui/**", "/swagger-ui**");
     }
 
-    @Override
     // cấu hình phân quyền
+    @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.cors()
-                .and()
-                .csrf()
-                .disable()
-                .exceptionHandling()
-                .authenticationEntryPoint(unauthorizedHandler)
-                .and()
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
+        http.cors().and().csrf().disable()
+                .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests()
-
-                // HttpMethod - đặc tả method nếu cần thiết, nếu áp dụng cho tất cả thì k gọi gì
-                // permitAll giống dòng 71, nhưng nó đi qua 1 cổng => k nên dùng thằng này, bỏ lên dòng 71
-                // hasAnyRole cho phép nhìu quyền, nhìu nhóm user cùng lúc
-                // hasRole: dùng với 1 quyền duy nhất
-
-                // mỗi cái antMatchers là một cấu hình, đi với role, là quyền tương ứng với cấu hình đó
-                .antMatchers("/update/**", "/products", "/product/add", "/products/**")
-                .hasRole("SHOP")
-                .antMatchers("/cart", "/checkout")
+                .antMatchers(HttpMethod.POST,
+                        "/api/auth/changePass**")
+                .hasAnyRole("USER", "PM", "ADMIN")
+                .antMatchers(
+                        "/api/auth/**",
+                        "/api/v1/public**",
+                        "/swagger-ui**",
+                        "/swagger-ui/**",
+                        "/v3/api-docs/**")
+                .permitAll()
+                .antMatchers(HttpMethod.GET,
+                        "/api/categories**",
+                        "/api/categories/**",
+                        "/api/images**",
+                        "/api/images/**",
+                        "/api/rates**",
+                        "/api/rates/**",
+                        "/api/features**",
+                        "/api/features/**",
+                        "/api/featureTypes**",
+                        "/api/featureTypes/**",
+                        "/api/products/**",
+                        "/api/products**")
+                .permitAll()
+                .antMatchers(
+                        "/api/v1/admin**",
+                        "/api/categories**",
+                        "/api/categories/**",
+                        "/api/images**",
+                        "/api/images/**",
+                        "/api/users**",
+                        "/api/users/**",
+                        "/api/features**",
+                        "/api/features/**",
+                        "/api/featureTypes**",
+                        "/api/featureTypes/**",
+                        "/api/products/**",
+                        "/api/products**")
+                .hasRole("ADMIN")
+                .antMatchers("api/rates**",
+                        "api/rates/**")
                 .hasRole("USER")
-                .antMatchers(HttpMethod.POST, "/product/**")
-                .hasRole("USER")
-                // những yêu cầu còn lại
-                .anyRequest()
-                .authenticated(); // yêu cầu quyền : ngoài dòng 71 và hàm này thì nó bắt đăng nhập mà k yêu
-        // cầu quyền cụ thể
+                .antMatchers(
+                        "/api/v1/**")
+                .hasAnyRole("USER", "PM", "ADMIN")
+                .anyRequest().authenticated();
 
-        http.addFilterBefore(
-                authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 }
