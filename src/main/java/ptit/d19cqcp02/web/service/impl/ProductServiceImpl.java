@@ -77,12 +77,14 @@ public class ProductServiceImpl implements IBaseService<ProductDTO, Long>, IMode
         Product entity = modelMapper.map(dto, Product.class);
         entity.setFeatures(findAllFeature(dto.getFeatureIds()));
         List<Image> images = new ArrayList<>();
-        for (int i = 0; i < 2; i++) {
-            Image image = new Image();
-            String url = dto.getImageUrls().get(i);
-            image.setImageUrl(url);
-            image.setProduct(entity);
-            images.add(image);
+        if (dto.getImageUrls() != null) {
+            for (int i = 0; i < dto.getImageUrls().size(); i++) {
+                Image image = new Image();
+                String url = dto.getImageUrls().get(i);
+                image.setImageUrl(url);
+                image.setProduct(entity);
+                images.add(image);
+            }
         }
         entity.setImages(images);
         return entity;
