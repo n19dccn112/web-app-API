@@ -70,28 +70,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         // assets - trang hình ảnh
         web.ignoring()
                 .antMatchers(
-                        "/api/auth/signin", "/api/auth/signup", "/api/auth/changePass",
-                        "/swagger-ui/**", "/swagger-ui**");
-    }
-
-    // cấu hình phân quyền
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http.cors().and().csrf().disable()
-                .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-                .authorizeRequests()
-                .antMatchers(HttpMethod.POST,
-                        "/api/auth/changePass**")
-                .hasAnyRole("USER", "PM", "ADMIN")
-                .antMatchers(
                         "/api/auth/**",
                         "/api/v1/public**",
                         "/swagger-ui**",
                         "/swagger-ui/**",
-                        "/v3/api-docs/**")
-                .permitAll()
-                .antMatchers(HttpMethod.GET,
+                        "/v3/api-docs/**",
                         "/api/categories**",
                         "/api/categories/**",
                         "/api/images**",
@@ -103,8 +86,19 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/api/featureTypes**",
                         "/api/featureTypes/**",
                         "/api/products/**",
-                        "/api/products**")
-                .permitAll()
+                        "/api/products**");
+    }
+
+    @Override
+    // cấu hình phân quyền
+    protected void configure(HttpSecurity http) throws Exception {
+        http.cors().and().csrf().disable()
+                .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+                .authorizeRequests()
+                .antMatchers(HttpMethod.POST,
+                        "/api/auth/changePass**")
+                .hasAnyRole("USER", "PM", "ADMIN")
                 .antMatchers(
                         "/api/v1/admin**",
                         "/api/categories**",
