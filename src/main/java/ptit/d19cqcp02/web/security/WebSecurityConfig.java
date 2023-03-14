@@ -69,7 +69,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         // định dạng mẫu URL k bị phân quyền
         // assets - trang hình ảnh
         web.ignoring()
-                .antMatchers(
+                .antMatchers(HttpMethod.GET,
                         "/api/auth/**",
                         "/api/v1/public**",
                         "/swagger-ui**",
@@ -99,7 +99,37 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST,
                         "/api/auth/changePass**")
                 .hasAnyRole("USER", "PM", "ADMIN")
-                .antMatchers(
+                .antMatchers(HttpMethod.POST,
+                        "/api/v1/admin**",
+                        "/api/categories**",
+                        "/api/categories/**",
+                        "/api/images**",
+                        "/api/images/**",
+                        "/api/users**",
+                        "/api/users/**",
+                        "/api/features**",
+                        "/api/features/**",
+                        "/api/featureTypes**",
+                        "/api/featureTypes/**",
+                        "/api/products/**",
+                        "/api/products**")
+                .hasRole("ADMIN")
+                .antMatchers(HttpMethod.DELETE,
+                        "/api/v1/admin**",
+                        "/api/categories**",
+                        "/api/categories/**",
+                        "/api/images**",
+                        "/api/images/**",
+                        "/api/users**",
+                        "/api/users/**",
+                        "/api/features**",
+                        "/api/features/**",
+                        "/api/featureTypes**",
+                        "/api/featureTypes/**",
+                        "/api/products/**",
+                        "/api/products**")
+                .hasRole("ADMIN")
+                .antMatchers(HttpMethod.PUT,
                         "/api/v1/admin**",
                         "/api/categories**",
                         "/api/categories/**",
