@@ -69,7 +69,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         // định dạng mẫu URL k bị phân quyền
         // assets - trang hình ảnh
         web.ignoring()
-                .antMatchers(HttpMethod.GET,
+                .antMatchers(HttpMethod.POST,
                         "/api/auth/**",
                         "/api/v1/public**",
                         "/swagger-ui**",
