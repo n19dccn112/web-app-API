@@ -107,13 +107,24 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/api/auth/changePass**")
                 .hasAnyRole("USER", "PM", "ADMIN")
                 .antMatchers(HttpMethod.POST,
-                        "/api/v1/admin**",
+                        "/api/auth/**",
+                        "/api/v1/public**",
+                        "/swagger-ui**",
+                        "/swagger-ui/**",
+                        "/v3/api-docs/**")
+                .hasRole("ADMIN")
+                .antMatchers(HttpMethod.GET,
+                        "/api/auth/**",
+                        "/api/v1/public**",
+                        "/swagger-ui**",
+                        "/swagger-ui/**",
+                        "/v3/api-docs/**",
                         "/api/categories**",
                         "/api/categories/**",
                         "/api/images**",
                         "/api/images/**",
-                        "/api/users**",
-                        "/api/users/**",
+                        "/api/rates**",
+                        "/api/rates/**",
                         "/api/features**",
                         "/api/features/**",
                         "/api/featureTypes**",
