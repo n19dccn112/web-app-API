@@ -22,9 +22,6 @@ public class OrderDetailViewControllerImpl {
 
     @GetMapping("")
     public List<OrderDetailView> getAll(@RequestParam(required = true) Long userId) {
-        if (userId == null)
-            return getService().findAllView(userId);
-        else
-            return getService().findAllView(userId);
+        return getService().findAllView(userId);
     }
 }
