@@ -20,10 +20,9 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: '11'
-      - uses: kolpav/purge-artifacts-action@v1
+      - uses: c-hive/gha-remove-artifacts@v1
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          expire-in: 0 # Set this to 0 to delete all artifacts
+          age: '1 day'
       - name: Build with Maven
         run: mvn clean install -DskipTests
 
