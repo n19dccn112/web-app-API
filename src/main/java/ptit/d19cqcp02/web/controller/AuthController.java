@@ -2,6 +2,7 @@ package ptit.d19cqcp02.web.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ptit.d19cqcp02.web.model.dto.ChangePassByEmailRequest;
 import ptit.d19cqcp02.web.model.dto.ChangePassRequest;
 import ptit.d19cqcp02.web.model.dto.LoginRequest;
 import ptit.d19cqcp02.web.model.dto.SignupRequest;
@@ -36,5 +37,11 @@ public class AuthController {
     public ResponseEntity<?> changePass(@Valid @RequestBody ChangePassRequest signUpRequest) {
 
         return service.changePass(signUpRequest);
+    }
+
+    @PostMapping("/changePassByEmail")
+    public ResponseEntity<?> changePassByEmail(@Valid @RequestBody ChangePassByEmailRequest signUpRequest) {
+
+        return service.changePassByEmail(signUpRequest);
     }
 }

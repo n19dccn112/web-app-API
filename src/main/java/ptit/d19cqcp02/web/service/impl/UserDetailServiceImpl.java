@@ -85,6 +85,22 @@ public class UserDetailServiceImpl implements IBaseService<UserDetailDTO, Long>,
     return ResponseEntity.ok(new MessageResponse("Change password successfully!"));
   }
 
+  public ResponseEntity<?> changePassByEmail(ChangePassByEmailRequest request) {
+    if (!repository.existsByEmail(request.getEmail())) {
+      return ResponseEntity
+              .badRequest()
+              .body(new MessageResponse("Error: Email not found!"));
+    }
+    User user = repository.findByEmail(request.getEmail()).get();
+    System.out.println(user.getPassword());
+    System.out.println(encoder.encode(request.getOldPassword()));
+    if (!encoder.matches(request.getOldPassword(), user.getPassword()))
+      throw new NotFoundException("Email and old password not match");
+    user.setPassword(encoder.encode(request.getPassword()));
+    repository.save(user);
+    return ResponseEntity.ok(new MessageResponse("Change password successfully!"));
+  }
+
   public ResponseEntity<?> register(SignupRequest signUpRequest) {
     if (repository.existsByUsername(signUpRequest.getUsername())) {
       return ResponseEntity.badRequest().body(new MessageResponse("Error: Username is already taken!"));
