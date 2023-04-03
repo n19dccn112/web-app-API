@@ -92,10 +92,6 @@ public class UserDetailServiceImpl implements IBaseService<UserDetailDTO, Long>,
               .body(new MessageResponse("Error: Email not found!"));
     }
     User user = repository.findByEmail(request.getEmail()).get();
-    System.out.println(user.getPassword());
-    System.out.println(encoder.encode(request.getOldPassword()));
-    if (!encoder.matches(request.getOldPassword(), user.getPassword()))
-      throw new NotFoundException("Email and old password not match");
     user.setPassword(encoder.encode(request.getPassword()));
     repository.save(user);
     return ResponseEntity.ok(new MessageResponse("Change password successfully!"));
