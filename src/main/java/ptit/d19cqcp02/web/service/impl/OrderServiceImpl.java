@@ -111,11 +111,7 @@ public class OrderServiceImpl implements IBaseService<OrderDTO, Long>, IModelMap
 
   public Order updateEntity(Order entity, OrderDTO dto) {
     if (entity != null && dto != null) {
-        entity.setOrderAddress(dto.getOrderAddress());
-      //entity.setOrderid(dto.getOrderId());
-      //entity.setStatus(dto.getStatus());
-      //entity.setTime(dto.getTime());
-
+      entity.setOrderStatus(dto.getOrderStatus());
     }
 
     return entity;

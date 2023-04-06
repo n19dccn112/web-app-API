@@ -162,8 +162,33 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/api/products/**",
                         "/api/products**")
                 .hasRole("ADMIN")
-                .antMatchers("api/rates**",
+                .antMatchers(HttpMethod.GET,
+                        "api/rates**",
                         "api/rates/**",
+                        "api/orders**",
+                        "api/orders/**",
+                        "api/orderDetails/**",
+                        "api/orderDetails**",
+                        "api/orderDetailViews")
+                .hasRole("USER")
+                .antMatchers(HttpMethod.POST,
+                        "api/rates**",
+                        "api/orders**",
+                        "api/orders/**",
+                        "api/orderDetails/**",
+                        "api/orderDetails**",
+                        "api/orderDetailViews")
+                .hasRole("USER")
+                .antMatchers(HttpMethod.DELETE,
+                        "api/rates**",
+                        "api/orders**",
+                        "api/orders/**",
+                        "api/orderDetails/**",
+                        "api/orderDetails**",
+                        "api/orderDetailViews")
+                .hasRole("USER")
+                .antMatchers(HttpMethod.PUT,
+                        "api/rates**",
                         "api/orders**",
                         "api/orders/**",
                         "api/orderDetails/**",
