@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import ptit.d19cqcp02.web.exception.NotFoundException;
 import ptit.d19cqcp02.web.model.dto.OrderDTO;
 import ptit.d19cqcp02.web.model.dto.OrderDetailDTO;
+import ptit.d19cqcp02.web.model.dto.OrderStatusClass;
 import ptit.d19cqcp02.web.model.entity.Order;
 import ptit.d19cqcp02.web.model.entity.OrderDetail;
 import ptit.d19cqcp02.web.model.entity.OrderDetailView;
@@ -15,6 +16,7 @@ import ptit.d19cqcp02.web.repository.IUserRepository;
 import ptit.d19cqcp02.web.service.IBaseService;
 import ptit.d19cqcp02.web.service.IModelMapper;
 
+import java.math.BigDecimal;
 import java.util.*;
 
 @Service
@@ -33,6 +35,27 @@ public class OrderServiceImpl implements IBaseService<OrderDTO, Long>, IModelMap
     this.userRepository = userRepository;
   }
 
+  public List<OrderStatusClass> findOrderStatus() {
+    List<OrderStatusClass> orderStatusClasses = new ArrayList<>();
+    for (int i = 0; i < 6; i++) {
+      OrderStatusClass os = new OrderStatusClass();
+      if (i == 0) os.setOrderStatus(OrderStatus.CART);
+      if (i == 1) os.setOrderStatus(OrderStatus.PREPARE);
+      if (i == 2) os.setOrderStatus(OrderStatus.SHIPPING);
+      if (i == 3) os.setOrderStatus(OrderStatus.SUCCESS);
+      if (i == 4) os.setOrderStatus(OrderStatus.CONFIRM);
+      if (i == 5) os.setOrderStatus(OrderStatus.CANCELED);
+      os.setAmountOrderStatus(BigDecimal.valueOf(0));
+      orderStatusClasses.add(os);
+    }
+
+//    for (Order order: repository.findAll()){
+//        if(order.getOrderStatus().equals(os1.getOrderStatus())){
+//          amount1 = amount1.add(BigDecimal.valueOf(1));
+//        }
+//    }
+    return orderStatusClasses;
+  }
 
   public List<OrderDTO> findAll() {
     List<OrderDTO> dtos = this.createFromEntities(this.repository.findAll());
@@ -64,7 +87,7 @@ public class OrderServiceImpl implements IBaseService<OrderDTO, Long>, IModelMap
     Order entity = createFromD(dto);
     //if(t.getTime()==null)
     entity.setOrderTime(date);
-    entity.setOrderStatus(OrderStatus.PREPARE);
+    entity.setOrderStatus(OrderStatus.CART);
     entity.setUser(userRepository.getById(dto.getUserId()));
     repository.save(entity);
 

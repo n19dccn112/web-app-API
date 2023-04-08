@@ -28,5 +28,13 @@ public class OrderControllerImpl implements IBaseController<OrderDTO, Long, Orde
         else
             return getService().findAll(userId);
     }
+//    @GetMapping("/status")
+//    public List<OrderDTO> getOrderStatus() {
+//        if (userId == null)
+//            return getService().findAll();
+//        else
+//            return getService().findAll(userId);
+//    }
+
 }
 
