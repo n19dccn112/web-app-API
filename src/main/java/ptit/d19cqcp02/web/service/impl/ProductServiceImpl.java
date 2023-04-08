@@ -118,6 +118,9 @@ public class ProductServiceImpl implements IBaseService<ProductDTO, Long>, IMode
                     .orElseThrow(() -> new NotFoundException(Category.class, dto.getCateId())));
             List<Image> images = new ArrayList<>();
             if (dto.getImageUrls() != null) {
+                for (Image image : imageRepository.findAllByProductProductId(dto.getProductId())) {
+                    imageRepository.delete(image);
+                }
                 for (int i = 0; i < dto.getImageUrls().size(); i++) {
                     Image image = new Image();
                     String url = dto.getImageUrls().get(i);
