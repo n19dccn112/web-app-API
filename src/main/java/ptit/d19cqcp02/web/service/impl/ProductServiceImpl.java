@@ -124,6 +124,7 @@ public class ProductServiceImpl implements IBaseService<ProductDTO, Long>, IMode
                     image.setImageUrl(url);
                     image.setProduct(entity);
                     images.add(image);
+                    imageRepository.save(image);
                 }
             }
             entity.setImages(images);
