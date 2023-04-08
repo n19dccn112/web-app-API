@@ -116,7 +116,17 @@ public class ProductServiceImpl implements IBaseService<ProductDTO, Long>, IMode
             entity.setFeatures(findAllFeature(dto.getFeatureIds()));
             entity.setCategory(categoryRepository.findById(dto.getCateId())
                     .orElseThrow(() -> new NotFoundException(Category.class, dto.getCateId())));
-
+            List<Image> images = new ArrayList<>();
+            if (dto.getImageUrls() != null) {
+                for (int i = 0; i < dto.getImageUrls().size(); i++) {
+                    Image image = new Image();
+                    String url = dto.getImageUrls().get(i);
+                    image.setImageUrl(url);
+                    image.setProduct(entity);
+                    images.add(image);
+                }
+            }
+            entity.setImages(images);
         }
         return entity;
     }

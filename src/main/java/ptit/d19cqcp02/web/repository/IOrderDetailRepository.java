@@ -21,4 +21,5 @@ public interface IOrderDetailRepository extends JpaRepository<OrderDetail, Order
 
 
     List<OrderDetail> findById_Order_OrderId(Long orderId);
+
 }

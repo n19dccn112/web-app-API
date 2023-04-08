@@ -6,6 +6,7 @@ import ptit.d19cqcp02.web.exception.NotFoundException;
 import ptit.d19cqcp02.web.model.dto.OrderDTO;
 import ptit.d19cqcp02.web.model.dto.OrderDetailDTO;
 import ptit.d19cqcp02.web.model.entity.Order;
+import ptit.d19cqcp02.web.model.entity.OrderDetail;
 import ptit.d19cqcp02.web.model.entity.OrderDetailView;
 import ptit.d19cqcp02.web.model.entity.OrderStatus;
 import ptit.d19cqcp02.web.repository.IOrderDetailRepository;
@@ -84,6 +85,10 @@ public class OrderServiceImpl implements IBaseService<OrderDTO, Long>, IModelMap
   public OrderDTO delete(Long id) {
     Optional<Order> entity = Optional.ofNullable(repository.findById(id)
             .orElseThrow(() -> new NotFoundException(Order.class, id)));
+    List<OrderDetail> orderDetails = orderDetailRepository.findById_Order_OrderId(id);
+    for (OrderDetail od : orderDetails) {
+      orderDetailRepository.delete(od);
+    }
     repository.delete(entity.get());
     return createFromE(entity.get());
   }
@@ -112,6 +117,8 @@ public class OrderServiceImpl implements IBaseService<OrderDTO, Long>, IModelMap
   public Order updateEntity(Order entity, OrderDTO dto) {
     if (entity != null && dto != null) {
       entity.setOrderStatus(dto.getOrderStatus());
+      entity.setOrderPhone(dto.getOrderPhone());
+      entity.setOrderAddress(dto.getOrderAddress());
     }
 
     return entity;
