@@ -5,6 +5,7 @@ import lombok.Getter;
 import org.springframework.web.bind.annotation.*;
 import ptit.d19cqcp02.web.controller.IBaseController;
 import ptit.d19cqcp02.web.model.dto.OrderDTO;
+import ptit.d19cqcp02.web.model.dto.OrderStatusClass;
 import ptit.d19cqcp02.web.service.impl.OrderServiceImpl;
 
 import javax.annotation.Resource;
@@ -28,13 +29,11 @@ public class OrderControllerImpl implements IBaseController<OrderDTO, Long, Orde
         else
             return getService().findAll(userId);
     }
-//    @GetMapping("/status")
-//    public List<OrderDTO> getOrderStatus() {
-//        if (userId == null)
-//            return getService().findAll();
-//        else
-//            return getService().findAll(userId);
-//    }
+
+    @GetMapping("/status")
+    public List<OrderStatusClass> getOrderStatus() {
+        return getService().findOrderStatus();
+    }
 
 }
 

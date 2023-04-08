@@ -46,14 +46,17 @@ public class OrderServiceImpl implements IBaseService<OrderDTO, Long>, IModelMap
       if (i == 4) os.setOrderStatus(OrderStatus.CONFIRM);
       if (i == 5) os.setOrderStatus(OrderStatus.CANCELED);
       os.setAmountOrderStatus(BigDecimal.valueOf(0));
+      os.setId(Long.valueOf(i + 1));
       orderStatusClasses.add(os);
     }
-
-//    for (Order order: repository.findAll()){
-//        if(order.getOrderStatus().equals(os1.getOrderStatus())){
-//          amount1 = amount1.add(BigDecimal.valueOf(1));
-//        }
-//    }
+    for (Order order : repository.findAll()) {
+      for (OrderStatusClass s : orderStatusClasses) {
+        if (order.getOrderStatus().equals(s.getOrderStatus())) {
+          s.setAmountOrderStatus(s.getAmountOrderStatus().add(BigDecimal.valueOf(1)));
+          break;
+        }
+      }
+    }
     return orderStatusClasses;
   }
 
