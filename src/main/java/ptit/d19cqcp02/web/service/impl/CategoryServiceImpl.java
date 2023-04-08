@@ -5,10 +5,12 @@ import org.springframework.stereotype.Service;
 import ptit.d19cqcp02.web.exception.NotFoundException;
 import ptit.d19cqcp02.web.model.dto.CateDTO;
 import ptit.d19cqcp02.web.model.entity.Category;
+import ptit.d19cqcp02.web.model.entity.Product;
 import ptit.d19cqcp02.web.repository.ICategoryRepository;
 import ptit.d19cqcp02.web.service.IBaseService;
 import ptit.d19cqcp02.web.service.IModelMapper;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -66,6 +68,12 @@ public class CategoryServiceImpl implements IBaseService<CateDTO, Long>, IModelM
     @Override
     public CateDTO createFromE(Category entity) {
         CateDTO dto = modelMapper.map(entity, CateDTO.class);
+        BigDecimal sum = BigDecimal.valueOf(Long.valueOf(0));
+        for (Product product : entity.getProducts()) {
+            BigDecimal productRemain = BigDecimal.valueOf(product.getProductRemain());
+            sum = sum.add(productRemain);
+        }
+        dto.setRemain(sum);
         return dto;
     }
 
