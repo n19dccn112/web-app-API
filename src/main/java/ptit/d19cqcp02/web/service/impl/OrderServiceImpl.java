@@ -145,6 +145,12 @@ public class OrderServiceImpl implements IBaseService<OrderDTO, Long>, IModelMap
       entity.setOrderStatus(dto.getOrderStatus());
       entity.setOrderPhone(dto.getOrderPhone());
       entity.setOrderAddress(dto.getOrderAddress());
+      List<OrderDetail> orderDetails = new ArrayList<>();
+      orderDetails = orderDetailRepository.findById_Order_OrderId(dto.getOrderId());
+      for (OrderDetail orderDetail : orderDetails) {
+        orderDetail.setAmount(dto.getOrderDetails().get(orderDetail.getId().getProduct().getProductId()));
+      }
+      orderDetailRepository.saveAll(orderDetails);
     }
 
     return entity;
