@@ -90,7 +90,7 @@ public class OrderServiceImpl implements IBaseService<OrderDTO, Long>, IModelMap
     Order entity = createFromD(dto);
     //if(t.getTime()==null)
     entity.setOrderTime(date);
-    entity.setOrderStatus(OrderStatus.CART);
+    entity.setOrderStatus(dto.getOrderStatus());
     entity.setUser(userRepository.getById(dto.getUserId()));
     repository.save(entity);
 
