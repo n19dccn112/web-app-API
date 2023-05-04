@@ -163,37 +163,37 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/api/products**")
                 .hasRole("ADMIN")
                 .antMatchers(HttpMethod.GET,
-                        "api/rates**",
-                        "api/rates/**",
-                        "api/orders**",
-                        "api/orders/**",
-                        "api/orderDetails/**",
-                        "api/orderDetails**",
-                        "api/orderDetailViews")
+                        "/api/rates**",
+                        "/api/rates/**",
+                        "/api/orders**",
+                        "/api/orders/**",
+                        "/api/orderDetails/**",
+                        "/api/orderDetails**",
+                        "/api/orderDetailViews")
                 .hasRole("USER")
                 .antMatchers(HttpMethod.POST,
                         "api/rates**",
-                        "api/orders**",
-                        "api/orders/**",
-                        "api/orderDetails/**",
-                        "api/orderDetails**",
-                        "api/orderDetailViews")
+                        "/api/orders**",
+                        "/api/orders/**",
+                        "/api/orderDetails/**",
+                        "/api/orderDetails**",
+                        "/api/orderDetailViews")
                 .hasRole("USER")
                 .antMatchers(HttpMethod.DELETE,
-                        "api/rates**",
-                        "api/orders**",
-                        "api/orders/**",
-                        "api/orderDetails/**",
-                        "api/orderDetails**",
-                        "api/orderDetailViews")
+                        "/api/rates**",
+                        "/api/orders**",
+                        "/api/orders/**",
+                        "/api/orderDetails/**",
+                        "/api/orderDetails**",
+                        "/api/orderDetailViews")
                 .hasRole("USER")
                 .antMatchers(HttpMethod.PUT,
-                        "api/rates**",
-                        "api/orders**",
-                        "api/orders/**",
-                        "api/orderDetails/**",
-                        "api/orderDetails**",
-                        "api/orderDetailViews")
+                        "/api/rates**",
+                        "/api/orders**",
+                        "/api/orders/**",
+                        "/api/orderDetails/**",
+                        "/api/orderDetails**",
+                        "/api/orderDetailViews")
                 .hasRole("USER")
                 .antMatchers(
                         "/api/v1/**")
