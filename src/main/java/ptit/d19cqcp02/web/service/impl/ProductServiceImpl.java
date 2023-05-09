@@ -94,6 +94,7 @@ public class ProductServiceImpl implements IBaseService<ProductDTO, Long>, IMode
         ProductDTO dto = modelMapper.map(entity, ProductDTO.class);
         dto.setCategoryName(entity.getCategory().getCategoryName());
         dto.setCateId(entity.getCategory().getCateId());
+        dto.setEventId(entity.getEvent().getEventId());
         if (entity.getFeatures() != null || entity.getFeatures().size() != 0) {
             dto.setFeaturesName(entity.getFeatures().stream().map(Feature::getFeatureSpecific).collect(Collectors.joining(" ")));
             dto.setFeatureIds(entity.getFeatures().stream().map(Feature::getFeatureFeatureId).collect(Collectors.toSet()));
@@ -148,6 +149,14 @@ public class ProductServiceImpl implements IBaseService<ProductDTO, Long>, IMode
         List<ProductDTO> productDTOS = createFromEntities(products);
         return productDTOS;
     }
+
+    public List<ProductDTO> findAllEvent(Long eventId) {
+        List<Product> products = repository.findAllByEvent_EventId(eventId);
+        setImage(products);
+        List<ProductDTO> productDTOS = createFromEntities(products);
+        return productDTOS;
+    }
+
 
     public List<ProductDTO> findAllBySetProducts(Set<Long> productIds) {
         List<Product> products = repository.findAllByProductId(productIds);

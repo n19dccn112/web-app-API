@@ -49,4 +49,5 @@ public class ProductDTO {
     @JsonIgnore
     private List<Long> featurePoint;
     private List<String> imageUrls;
+    private Long eventId;
 }

@@ -22,4 +22,6 @@ public interface IProductRepository extends JpaRepository<Product, Long> {
 
     @Query(value = "SELECT * from products p where  p.id in ?1", nativeQuery = true)
     List<Product> findAllByProductId(Set<Long> featureIds);
+
+    List<Product> findAllByEvent_EventId(Long eventId);
 }

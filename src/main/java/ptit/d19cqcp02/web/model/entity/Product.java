@@ -66,6 +66,10 @@ public class Product {
     @JoinColumn(name = "category_id") // Tên cột join trong db
     private Category category;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_event") // Tên cột join trong db
+    private Event event;
+
     @Transient
     @OneToMany(fetch = FetchType.LAZY)
     private List<Image> images;
