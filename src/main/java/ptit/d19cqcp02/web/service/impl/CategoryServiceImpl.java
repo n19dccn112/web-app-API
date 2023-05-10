@@ -68,12 +68,16 @@ public class CategoryServiceImpl implements IBaseService<CateDTO, Long>, IModelM
     @Override
     public CateDTO createFromE(Category entity) {
         CateDTO dto = modelMapper.map(entity, CateDTO.class);
-        BigDecimal sum = BigDecimal.valueOf(Long.valueOf(0));
-        for (Product product : entity.getProducts()) {
-            BigDecimal productRemain = BigDecimal.valueOf(product.getProductRemain());
-            sum = sum.add(productRemain);
+        try {
+            BigDecimal sum = BigDecimal.valueOf(Long.valueOf(0));
+            for (Product product : entity.getProducts()) {
+                BigDecimal productRemain = BigDecimal.valueOf(product.getProductRemain());
+                sum = sum.add(productRemain);
+            }
+            dto.setRemain(sum);
+        } catch (Exception e) {
+
         }
-        dto.setRemain(sum);
         return dto;
     }
 

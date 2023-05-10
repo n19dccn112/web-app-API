@@ -95,7 +95,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/api/products/**",
                         "/api/products**",
                         "/api/event/**",
-                        "/api/events**");
+                        "/api/event**",
+                        "/api/orders/**",
+                        "/api/orders**");
     }
 
     @Override
@@ -134,7 +136,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/api/products/**",
                         "/api/products**",
                         "/api/event/**",
-                        "/api/events**")
+                        "/api/event**",
+                        "/api/orders/**",
+                        "/api/orders**")
                 .hasRole("ADMIN")
                 .antMatchers(HttpMethod.DELETE,
                         "/api/v1/admin**",
@@ -151,7 +155,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/api/products/**",
                         "/api/products**",
                         "/api/event/**",
-                        "/api/events**")
+                        "/api/events**",
+                        "/api/orders/**",
+                        "/api/orders**")
                 .hasRole("ADMIN")
                 .antMatchers(HttpMethod.PUT,
                         "/api/v1/admin**",
@@ -168,7 +174,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/api/products/**",
                         "/api/products**",
                         "/api/event/**",
-                        "/api/events**")
+                        "/api/events**",
+                        "/api/orders/**",
+                        "/api/orders**")
                 .hasRole("ADMIN")
                 .antMatchers(HttpMethod.GET,
                         "/api/rates**",
@@ -179,7 +187,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/api/orderDetails**",
                         "/api/orderDetailViews",
                         "/api/event/**",
-                        "/api/events**")
+                        "/api/event**")
                 .hasRole("USER")
                 .antMatchers(HttpMethod.POST,
                         "api/rates**",
@@ -189,7 +197,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/api/orderDetails**",
                         "/api/orderDetailViews",
                         "/api/event/**",
-                        "/api/events**")
+                        "/api/event**")
                 .hasRole("USER")
                 .antMatchers(HttpMethod.DELETE,
                         "/api/rates**",
