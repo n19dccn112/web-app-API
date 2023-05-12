@@ -69,6 +69,10 @@ public class OrderServiceImpl implements IBaseService<OrderDTO, Long>, IModelMap
     return this.repository.getAllOrderByUserId(userId);
   }
 
+  public List<OrderDetailView> findAllView() {
+    return this.repository.getAllOrder();
+  }
+
   public List<OrderDTO> findAll(Long userId) {
     return this.createFromEntities(this.repository.findByUser_Id(userId));
   }

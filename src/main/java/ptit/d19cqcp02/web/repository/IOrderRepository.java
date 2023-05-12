@@ -25,6 +25,18 @@ public interface IOrderRepository extends JpaRepository<Order, Long> {
             nativeQuery = true)
     List<OrderDetailView> getAllOrderByUserId(Long userI);
 
+    @Query(
+            value =
+                    "select o.orderId as orderId, o.status as status, u.username as username, u.email as email, ud.first_name as firstName, ud.last_name as lastName, ud.address as uAddress, o.address as address,"
+                            + " o.phone as phone, od.amount as amount, p.id as productId, p.name as name, p.price as price, p.remain as remain,"
+                            + " (select top(1) i.url from image i where i.product_id=p.id) as url"
+                            + " from username u left join orders o on u.id=o.user_id"
+                            + " join orderdetails od on o.orderid=od.order_id"
+                            + " join products p on od.product_id=p.id"
+                            + " join userdetails ud on u.id=ud.id",
+            nativeQuery = true)
+    List<OrderDetailView> getAllOrder();
+
     @Override
     Optional<Order> findById(Long aLong);
 

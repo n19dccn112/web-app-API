@@ -97,6 +97,49 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/api/event/**",
                         "/api/event**",
                         "/api/orders/**",
+                        "/api/orders**",
+                        "/api/orderDetails/**",
+                        "/api/orderDetails**",
+                        "/api/orderDetailViews")
+                .antMatchers(HttpMethod.DELETE,
+                        "/api/v1/admin**",
+                        "/api/categories**",
+                        "/api/categories/**",
+                        "/api/images**",
+                        "/api/images/**",
+                        "/api/users**",
+                        "/api/users/**",
+                        "/api/features**",
+                        "/api/features/**",
+                        "/api/featureTypes**",
+                        "/api/featureTypes/**",
+                        "/api/products/**",
+                        "/api/products**",
+                        "/api/event/**",
+                        "/api/events**",
+                        "/api/orderDetails/**",
+                        "/api/orderDetails**",
+                        "/api/orders/**",
+                        "/api/orders**")
+                .antMatchers(HttpMethod.PUT,
+                        "/api/v1/admin**",
+                        "/api/categories**",
+                        "/api/categories/**",
+                        "/api/images**",
+                        "/api/images/**",
+                        "/api/users**",
+                        "/api/users/**",
+                        "/api/features**",
+                        "/api/features/**",
+                        "/api/featureTypes**",
+                        "/api/featureTypes/**",
+                        "/api/orderDetails/**",
+                        "/api/orderDetails**",
+                        "/api/products/**",
+                        "/api/products**",
+                        "/api/event/**",
+                        "/api/events**",
+                        "/api/orders/**",
                         "/api/orders**");
     }
 
@@ -137,6 +180,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/api/products**",
                         "/api/event/**",
                         "/api/event**",
+                        "/api/orderDetails/**",
+                        "/api/orderDetails**",
                         "/api/orders/**",
                         "/api/orders**",
                         "/api/users/**",
@@ -159,6 +204,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/api/products**",
                         "/api/event/**",
                         "/api/events**",
+                        "/api/orderDetails/**",
+                        "/api/orderDetails**",
                         "/api/orders/**",
                         "/api/orders**")
                 .hasRole("ADMIN")
@@ -174,6 +221,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/api/features/**",
                         "/api/featureTypes**",
                         "/api/featureTypes/**",
+                        "/api/orderDetails/**",
+                        "/api/orderDetails**",
                         "/api/products/**",
                         "/api/products**",
                         "/api/event/**",
@@ -189,8 +238,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/api/orderDetails/**",
                         "/api/orderDetails**",
                         "/api/orderDetailViews",
+                        "/api/orderDetails/**",
+                        "/api/orderDetails**",
                         "/api/event/**",
-                        "/api/event**")
+                        "/api/event**",
+                        "/api/orders/**",
+                        "/api/orders**")
                 .hasRole("USER")
                 .antMatchers(HttpMethod.POST,
                         "api/rates**",
@@ -198,7 +251,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/api/orders/**",
                         "/api/orderDetails/**",
                         "/api/orderDetails**",
-                        "/api/orderDetailViews",
                         "/api/event/**",
                         "/api/event**")
                 .hasRole("USER")
@@ -207,16 +259,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/api/orders**",
                         "/api/orders/**",
                         "/api/orderDetails/**",
-                        "/api/orderDetails**",
-                        "/api/orderDetailViews")
+                        "/api/orderDetails**")
                 .hasRole("USER")
                 .antMatchers(HttpMethod.PUT,
                         "/api/rates**",
                         "/api/orders**",
                         "/api/orders/**",
                         "/api/orderDetails/**",
-                        "/api/orderDetails**",
-                        "/api/orderDetailViews")
+                        "/api/orderDetails**")
                 .hasRole("USER")
                 .antMatchers(
                         "/api/v1/**")

@@ -21,7 +21,10 @@ public class OrderDetailViewControllerImpl {
     private OrderServiceImpl service;
 
     @GetMapping("")
-    public List<OrderDetailView> getAll(@RequestParam(required = true) Long userId) {
-        return getService().findAllView(userId);
+    public List<OrderDetailView> getAll(@RequestParam(required = false) Long userId) {
+        if (userId != null)
+            return getService().findAllView(userId);
+        else
+            return getService().findAllView();
     }
 }
