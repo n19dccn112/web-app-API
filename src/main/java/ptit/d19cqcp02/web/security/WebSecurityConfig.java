@@ -140,7 +140,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/api/orders/**",
                         "/api/orders**",
                         "/api/users/**",
-                        "/api/users**")
+                        "/api/users**",
+                        "/api/orderDetailViews")
                 .hasRole("ADMIN")
                 .antMatchers(HttpMethod.DELETE,
                         "/api/v1/admin**",
