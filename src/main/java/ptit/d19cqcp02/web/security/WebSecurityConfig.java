@@ -24,6 +24,7 @@ import ptit.d19cqcp02.web.security.services.UserDetailsServiceImpl;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
+
     private final UserDetailsServiceImpl userDetailsService;
 
     private final JwtAuthEntryPoint unauthorizedHandler;
@@ -74,7 +75,28 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/api/v1/public**",
                         "/swagger-ui**",
                         "/swagger-ui/**",
-                        "/v3/api-docs/**");
+                        "/v3/api-docs/**",
+                        "/api/categories**",
+                        "/api/categories/**",
+                        "/api/images**",
+                        "/api/images/**",
+                        "/api/rates**",
+                        "/api/rates/**",
+                        "/api/features**",
+                        "/api/features/**",
+                        "/api/featureTypes**",
+                        "/api/featureTypes/**",
+                        "/api/products/**",
+                        "/api/products**",
+                        "/api/event/**",
+                        "/api/event**",
+                        "/api/orders/**",
+                        "/api/orders**",
+                        "/api/orderDetails/**",
+                        "/api/orderDetails**",
+                        "/api/orderDetailViews",
+                        "/api/users/**",
+                        "/api/users**");
         web.ignoring()
                 .antMatchers(HttpMethod.GET,
                         "/api/auth/**",
