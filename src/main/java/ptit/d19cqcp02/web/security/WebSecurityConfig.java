@@ -100,7 +100,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/api/orders**",
                         "/api/orderDetails/**",
                         "/api/orderDetails**",
-                        "/api/orderDetailViews")
+                        "/api/orderDetailViews",
+                        "/api/users/**",
+                        "/api/users**")
                 .antMatchers(HttpMethod.DELETE,
                         "/api/v1/admin**",
                         "/api/categories**",
