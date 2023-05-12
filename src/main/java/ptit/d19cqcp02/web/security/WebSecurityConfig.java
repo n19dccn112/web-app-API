@@ -138,7 +138,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/api/event/**",
                         "/api/event**",
                         "/api/orders/**",
-                        "/api/orders**")
+                        "/api/orders**",
+                        "/api/users/**",
+                        "/api/users**")
                 .hasRole("ADMIN")
                 .antMatchers(HttpMethod.DELETE,
                         "/api/v1/admin**",
