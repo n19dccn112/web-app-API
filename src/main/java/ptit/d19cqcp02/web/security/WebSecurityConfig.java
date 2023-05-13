@@ -124,7 +124,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/api/orderDetails**",
                         "/api/orderDetailViews",
                         "/api/users/**",
-                        "/api/users**")
+                        "/api/users**",
+                        "/api/rates**",
+                        "/api/rates/**")
                 .antMatchers(HttpMethod.DELETE,
                         "/api/v1/admin**",
                         "/api/categories**",
@@ -144,7 +146,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/api/orderDetails/**",
                         "/api/orderDetails**",
                         "/api/orders/**",
-                        "/api/orders**")
+                        "/api/orders**",
+                        "/api/rates**",
+                        "/api/rates/**")
                 .antMatchers(HttpMethod.PUT,
                         "/api/v1/admin**",
                         "/api/categories**",
@@ -164,7 +168,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/api/event/**",
                         "/api/events**",
                         "/api/orders/**",
-                        "/api/orders**");
+                        "/api/orders**",
+                        "/api/rates**",
+                        "/api/rates/**");
     }
 
     @Override
