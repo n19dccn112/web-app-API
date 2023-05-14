@@ -10,17 +10,17 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-
 @Component
 public class JwtAuthEntryPoint implements AuthenticationEntryPoint {
 
     private static final Logger log = LoggerFactory.getLogger(JwtAuthEntryPoint.class);
 
     @Override
-    public void commence(
-            HttpServletRequest request, HttpServletResponse response, AuthenticationException e)
+    public void commence(HttpServletRequest request,
+                         HttpServletResponse response,
+                         AuthenticationException e)
             throws IOException, ServletException {
-//    response.sendRedirect(request.getContextPath() + "/login");
+
         log.error("Unauthorized error: {}", e.getMessage());
         response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Error: Unauthorized");
     }

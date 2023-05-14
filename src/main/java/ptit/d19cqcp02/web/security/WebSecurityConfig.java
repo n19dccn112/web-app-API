@@ -24,7 +24,6 @@ import ptit.d19cqcp02.web.security.services.UserDetailsServiceImpl;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-
     private final UserDetailsServiceImpl userDetailsService;
 
     private final JwtAuthEntryPoint unauthorizedHandler;
@@ -75,28 +74,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/api/v1/public**",
                         "/swagger-ui**",
                         "/swagger-ui/**",
-                        "/v3/api-docs/**",
-                        "/api/categories**",
-                        "/api/categories/**",
-                        "/api/images**",
-                        "/api/images/**",
-                        "/api/rates**",
-                        "/api/rates/**",
-                        "/api/features**",
-                        "/api/features/**",
-                        "/api/featureTypes**",
-                        "/api/featureTypes/**",
-                        "/api/products/**",
-                        "/api/products**",
-                        "/api/event/**",
-                        "/api/event**",
-                        "/api/orders/**",
-                        "/api/orders**",
-                        "/api/orderDetails/**",
-                        "/api/orderDetails**",
-                        "/api/orderDetailViews",
-                        "/api/users/**",
-                        "/api/users**");
+                        "/v3/api-docs/**");
         web.ignoring()
                 .antMatchers(HttpMethod.GET,
                         "/api/auth/**",
@@ -117,60 +95,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/api/products/**",
                         "/api/products**",
                         "/api/event/**",
-                        "/api/event**",
-                        "/api/orders/**",
-                        "/api/orders**",
-                        "/api/orderDetails/**",
-                        "/api/orderDetails**",
-                        "/api/orderDetailViews",
-                        "/api/users/**",
-                        "/api/users**",
-                        "/api/rates**",
-                        "/api/rates/**")
-                .antMatchers(HttpMethod.DELETE,
-                        "/api/v1/admin**",
-                        "/api/categories**",
-                        "/api/categories/**",
-                        "/api/images**",
-                        "/api/images/**",
-                        "/api/users**",
-                        "/api/users/**",
-                        "/api/features**",
-                        "/api/features/**",
-                        "/api/featureTypes**",
-                        "/api/featureTypes/**",
-                        "/api/products/**",
-                        "/api/products**",
-                        "/api/event/**",
-                        "/api/events**",
-                        "/api/orderDetails/**",
-                        "/api/orderDetails**",
-                        "/api/orders/**",
-                        "/api/orders**",
-                        "/api/rates**",
-                        "/api/rates/**")
-                .antMatchers(HttpMethod.PUT,
-                        "/api/v1/admin**",
-                        "/api/categories**",
-                        "/api/categories/**",
-                        "/api/images**",
-                        "/api/images/**",
-                        "/api/users**",
-                        "/api/users/**",
-                        "/api/features**",
-                        "/api/features/**",
-                        "/api/featureTypes**",
-                        "/api/featureTypes/**",
-                        "/api/orderDetails/**",
-                        "/api/orderDetails**",
-                        "/api/products/**",
-                        "/api/products**",
-                        "/api/event/**",
-                        "/api/events**",
-                        "/api/orders/**",
-                        "/api/orders**",
-                        "/api/rates**",
-                        "/api/rates/**");
+                        "/api/event**");
     }
 
     @Override
@@ -180,9 +105,19 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests()
-                .antMatchers(HttpMethod.POST,
-                        "/api/auth/changePass**")
-                .hasAnyRole("USER", "PM", "ADMIN")
+                .antMatchers(HttpMethod.GET,
+                        "/api/auth/changePass**",
+                        "/api/orderDetailViews**",
+                        "/api/users/**",
+                        "/api/users**")
+                .hasAnyRole("USER", "SHOP", "ADMIN")
+                .antMatchers(
+                        "/api/auth/**",
+                        "/api/v1/public**",
+                        "/swagger-ui**",
+                        "/swagger-ui/**",
+                        "/v3/api-docs/**")
+                .permitAll()
                 .antMatchers(HttpMethod.POST,
                         "/api/auth/**",
                         "/api/v1/public**",
@@ -195,112 +130,50 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/api/v1/public**",
                         "/swagger-ui**",
                         "/swagger-ui/**",
-                        "/v3/api-docs/**",
-                        "/api/categories**",
-                        "/api/categories/**",
-                        "/api/images**",
-                        "/api/images/**",
-                        "/api/rates**",
-                        "/api/rates/**",
-                        "/api/features**",
-                        "/api/features/**",
-                        "/api/featureTypes**",
-                        "/api/featureTypes/**",
-                        "/api/products/**",
-                        "/api/products**",
-                        "/api/event/**",
-                        "/api/event**",
-                        "/api/orderDetails/**",
-                        "/api/orderDetails**",
-                        "/api/orders/**",
-                        "/api/orders**",
-                        "/api/users/**",
-                        "/api/users**",
-                        "/api/orderDetailViews")
+                        "/v3/api-docs/**")
                 .hasRole("ADMIN")
                 .antMatchers(HttpMethod.DELETE,
                         "/api/v1/admin**",
-                        "/api/categories**",
                         "/api/categories/**",
-                        "/api/images**",
                         "/api/images/**",
-                        "/api/users**",
                         "/api/users/**",
-                        "/api/features**",
                         "/api/features/**",
-                        "/api/featureTypes**",
                         "/api/featureTypes/**",
                         "/api/products/**",
-                        "/api/products**",
                         "/api/event/**",
-                        "/api/events**",
-                        "/api/orderDetails/**",
-                        "/api/orderDetails**",
                         "/api/orders/**",
-                        "/api/orders**")
+                        "/api/orderDetails/**")
                 .hasRole("ADMIN")
                 .antMatchers(HttpMethod.PUT,
                         "/api/v1/admin**",
-                        "/api/categories**",
                         "/api/categories/**",
-                        "/api/images**",
                         "/api/images/**",
-                        "/api/users**",
                         "/api/users/**",
-                        "/api/features**",
                         "/api/features/**",
-                        "/api/featureTypes**",
                         "/api/featureTypes/**",
-                        "/api/orderDetails/**",
-                        "/api/orderDetails**",
                         "/api/products/**",
-                        "/api/products**",
                         "/api/event/**",
-                        "/api/events**",
                         "/api/orders/**",
-                        "/api/orders**")
+                        "/api/orderDetails/**")
                 .hasRole("ADMIN")
-                .antMatchers(HttpMethod.GET,
-                        "/api/rates**",
-                        "/api/rates/**",
-                        "/api/orders**",
-                        "/api/orders/**",
-                        "/api/orderDetails/**",
-                        "/api/orderDetails**",
-                        "/api/orderDetailViews",
-                        "/api/orderDetails/**",
-                        "/api/orderDetails**",
-                        "/api/event/**",
-                        "/api/event**",
-                        "/api/orders/**",
-                        "/api/orders**")
-                .hasRole("USER")
                 .antMatchers(HttpMethod.POST,
-                        "api/rates**",
                         "/api/orders**",
-                        "/api/orders/**",
-                        "/api/orderDetails/**",
                         "/api/orderDetails**",
-                        "/api/event/**",
-                        "/api/event**")
+                        "/api/rates**")
                 .hasRole("USER")
                 .antMatchers(HttpMethod.DELETE,
-                        "/api/rates**",
                         "/api/orders**",
-                        "/api/orders/**",
-                        "/api/orderDetails/**",
-                        "/api/orderDetails**")
+                        "/api/orderDetails**",
+                        "/api/rates/**")
                 .hasRole("USER")
                 .antMatchers(HttpMethod.PUT,
-                        "/api/rates**",
-                        "/api/orders**",
                         "/api/orders/**",
                         "/api/orderDetails/**",
-                        "/api/orderDetails**")
+                        "/api/rates/**")
                 .hasRole("USER")
                 .antMatchers(
                         "/api/v1/**")
-                .hasAnyRole("USER", "PM", "ADMIN")
+                .hasAnyRole("USER", "SHOP", "ADMIN")
                 .anyRequest().authenticated();
 
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);

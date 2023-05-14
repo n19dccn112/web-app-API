@@ -106,42 +106,51 @@ public class UserDetailServiceImpl implements IBaseService<UserDetailDTO, Long>,
     }
 
     // Create new user's account
-    Optional<UserDetailDTO> dto = Optional.ofNullable(modelMapper.map(
-            signUpRequest, UserDetailDTO.class));
-    dto.get().setRole(signUpRequest.getRole());
-    save(dto.orElseThrow(() -> new NotFoundException(UserDetailDTO.class, "null")));
+    UserDetailDTO dto = modelMapper.map(signUpRequest, UserDetailDTO.class);
+    save(dto);
     return new ResponseEntity<>(new MessageResponse("User registered successfully!"), HttpStatus.CREATED);
   }
 
+  //  private Role getRole(String role) {
+//
+//    if (role == null) {
+//      return roleRepository.findByName(RoleName.ROLE_USER)
+//              .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+//    } else {
+//      //strRoles.forEach(role -> {
+//        switch (role.toLowerCase()) {
+//          case "admin":
+//            return roleRepository.findByName(RoleName.ROLE_ADMIN)
+//                    .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+//          case "shop":
+//            return roleRepository.findByName(RoleName.ROLE_SHOP)
+//                    .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+//          default:
+//            return roleRepository.findByName(RoleName.ROLE_USER)
+//                    .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+//        }
+//      //});
+//    }
+//  }
+//
   private Role getRole(String strRole) {
-    Role role = new Role();
     if (strRole == null || strRole.equals("")) {
-      Role userRole = roleRepository.findByName(RoleName.ROLE_USER)
+      return roleRepository.findByName(RoleName.ROLE_USER)
               .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-      role = userRole;
+
     } else {
-//      strRoles.forEach(role -> {
-      switch (strRole.toLowerCase()) {
-        case "admin":
-          Role adminRole = roleRepository.findByName(RoleName.ROLE_ADMIN)
+      switch (strRole) {
+        case "ROLE_ADMIN":
+          return roleRepository.findByName(RoleName.ROLE_ADMIN)
                   .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-          role = adminRole;
-
-          break;
-        case "pm":
-          Role modRole = roleRepository.findByName(RoleName.ROLE_USER)
+        case "ROLE_SHOP":
+          return roleRepository.findByName(RoleName.ROLE_SHOP)
                   .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-          role = modRole;
-
-          break;
         default:
-          Role userRole = roleRepository.findByName(RoleName.ROLE_USER)
+          return roleRepository.findByName(RoleName.ROLE_USER)
                   .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-          role = userRole;
       }
-//      });
     }
-    return role;
   }
 
   private UserDetail getDetail(Long id) {
@@ -192,7 +201,6 @@ public class UserDetailServiceImpl implements IBaseService<UserDetailDTO, Long>,
   @Override
   public UserDetailDTO save(UserDetailDTO dto) {
     User entity = createFromD(dto);
-    entity.setRole(roleRepository.findByName(dto.getRole()).orElseThrow(() -> new NotFoundException(User.class, dto.getId())));
     repository.save(entity);
     updateDetail(dto);
     return createFromE(entity);
