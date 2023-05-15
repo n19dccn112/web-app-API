@@ -119,14 +119,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/v3/api-docs/**")
                 .permitAll()
                 .antMatchers(HttpMethod.POST,
-                        "/api/auth/**",
                         "/api/v1/public**",
                         "/swagger-ui**",
                         "/swagger-ui/**",
                         "/v3/api-docs/**")
                 .hasRole("ADMIN")
                 .antMatchers(HttpMethod.GET,
-                        "/api/auth/**",
                         "/api/v1/public**",
                         "/swagger-ui**",
                         "/swagger-ui/**",
