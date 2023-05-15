@@ -7,7 +7,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -64,18 +63,54 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
+//    @Override
+//    public void configure(WebSecurity web) throws Exception {
+//        // định dạng mẫu URL k bị phân quyền
+//        // assets - trang hình ảnh
+//        web.ignoring()
+//                .antMatchers(HttpMethod.POST,
+//                        "/api/auth/**",
+//                        "/api/v1/public**",
+//                        "/swagger-ui**",
+//                        "/swagger-ui/**",
+//                        "/v3/api-docs/**");
+//        web.ignoring()
+//                .antMatchers(HttpMethod.GET,
+//                        "/api/auth/**",
+//                        "/api/v1/public**",
+//                        "/swagger-ui**",
+//                        "/swagger-ui/**",
+//                        "/v3/api-docs/**",
+//                        "/api/categories**",
+//                        "/api/categories/**",
+//                        "/api/images**",
+//                        "/api/images/**",
+//                        "/api/rates**",
+//                        "/api/rates/**",
+//                        "/api/features**",
+//                        "/api/features/**",
+//                        "/api/featureTypes**",
+//                        "/api/featureTypes/**",
+//                        "/api/products/**",
+//                        "/api/products**",
+//                        "/api/event/**",
+//                        "/api/event**");
+//    }
+
     @Override
-    public void configure(WebSecurity web) throws Exception {
-        // định dạng mẫu URL k bị phân quyền
-        // assets - trang hình ảnh
-        web.ignoring()
+    // cấu hình phân quyền
+    protected void configure(HttpSecurity http) throws Exception {
+        http.cors().and().csrf().disable()
+                .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+                .authorizeRequests()
                 .antMatchers(HttpMethod.POST,
                         "/api/auth/**",
                         "/api/v1/public**",
                         "/swagger-ui**",
                         "/swagger-ui/**",
-                        "/v3/api-docs/**");
-        web.ignoring()
+                        "/v3/api-docs/**")
+                .permitAll()
                 .antMatchers(HttpMethod.GET,
                         "/api/auth/**",
                         "/api/v1/public**",
@@ -95,29 +130,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/api/products/**",
                         "/api/products**",
                         "/api/event/**",
-                        "/api/event**");
-    }
-
-    @Override
-    // cấu hình phân quyền
-    protected void configure(HttpSecurity http) throws Exception {
-        http.cors().and().csrf().disable()
-                .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-                .authorizeRequests()
+                        "/api/event**")
+                .permitAll()
                 .antMatchers(HttpMethod.GET,
                         "/api/auth/changePass**",
                         "/api/orderDetailViews**",
                         "/api/users/**",
                         "/api/users**")
                 .hasAnyRole("USER", "SHOP", "ADMIN")
-                .antMatchers(HttpMethod.POST,
-                        "/api/auth/**",
-                        "/api/v1/public**",
-                        "/swagger-ui**",
-                        "/swagger-ui/**",
-                        "/v3/api-docs/**")
-                .permitAll()
                 .antMatchers(HttpMethod.POST,
                         "/api/v1/public**",
                         "/swagger-ui**",
