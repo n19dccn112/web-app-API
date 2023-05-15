@@ -110,15 +110,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/swagger-ui/**",
                         "/v3/api-docs/**")
                 .permitAll()
-                .antMatchers(HttpMethod.POST,
-                        "/api/auth/**")
+                .antMatchers("/api/auth/**")
                 .permitAll()
                 .antMatchers(HttpMethod.GET,
-                        "/api/auth/**",
-                        "/api/v1/public**",
-                        "/swagger-ui**",
-                        "/swagger-ui/**",
-                        "/v3/api-docs/**",
                         "/api/categories**",
                         "/api/categories/**",
                         "/api/images**",
@@ -140,20 +134,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/api/users/**",
                         "/api/users**")
                 .hasAnyRole("USER", "SHOP", "ADMIN")
-                .antMatchers(HttpMethod.POST,
-                        "/api/v1/public**",
-                        "/swagger-ui**",
-                        "/swagger-ui/**",
-                        "/v3/api-docs/**")
-                .hasRole("ADMIN")
-                .antMatchers(HttpMethod.GET,
-                        "/api/v1/public**",
-                        "/swagger-ui**",
-                        "/swagger-ui/**",
-                        "/v3/api-docs/**")
-                .hasRole("ADMIN")
                 .antMatchers(HttpMethod.DELETE,
-                        "/api/v1/admin**",
                         "/api/categories/**",
                         "/api/images/**",
                         "/api/users/**",
@@ -165,7 +146,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/api/orderDetails/**")
                 .hasRole("ADMIN")
                 .antMatchers(HttpMethod.PUT,
-                        "/api/v1/admin**",
                         "/api/categories/**",
                         "/api/images/**",
                         "/api/users/**",
@@ -191,9 +171,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/api/orderDetails/**",
                         "/api/rates/**")
                 .hasRole("USER")
-                .antMatchers(
-                        "/api/v1/**")
-                .hasAnyRole("USER", "SHOP", "ADMIN")
                 .anyRequest().authenticated();
 
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
