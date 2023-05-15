@@ -104,12 +104,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests()
-                .antMatchers(HttpMethod.POST,
-                        "/api/auth/**",
+                .antMatchers(
                         "/api/v1/public**",
                         "/swagger-ui**",
                         "/swagger-ui/**",
                         "/v3/api-docs/**")
+                .permitAll()
+                .antMatchers(HttpMethod.POST,
+                        "/api/auth/**")
                 .permitAll()
                 .antMatchers(HttpMethod.GET,
                         "/api/auth/**",
