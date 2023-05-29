@@ -162,8 +162,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/api/rates**")
                 .hasRole("USER")
                 .antMatchers(HttpMethod.DELETE,
-                        "/api/orders**",
-                        "/api/orderDetails**",
+                        "/api/orders/**",
+                        "/api/orderDetails/**",
                         "/api/rates/**")
                 .hasRole("USER")
                 .antMatchers(HttpMethod.PUT,
