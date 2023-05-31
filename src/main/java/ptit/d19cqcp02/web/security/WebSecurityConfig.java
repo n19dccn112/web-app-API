@@ -171,12 +171,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/api/orderDetails/**",
                         "/api/rates/**")
                 .hasRole("USER")
-                .anyRequest().authenticated()
-                .antMatchers(HttpMethod.PUT,
-                        "/api/orders/**",
-                        "/api/orderDetails/**",
-                        "/api/rates/**")
-                .hasAnyRole("USER", "ADMIN")
                 .anyRequest().authenticated();
 
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
