@@ -63,6 +63,7 @@ public class FeatureServiceImpl implements IBaseService<FeatureDTO, Long>, IMode
   @Override
   public Feature createFromD(FeatureDTO dto) {
     Feature entity = modelMapper.map(dto, Feature.class);
+    entity.setFeatureType(typeRepository.findById(dto.getFeatureTypeId()).get());
     return entity;
   }
 

@@ -9,7 +9,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import ptit.d19cqcp02.web.exception.NotFoundException;
 import ptit.d19cqcp02.web.model.RoleName;
 import ptit.d19cqcp02.web.model.dto.*;
@@ -111,28 +110,6 @@ public class UserDetailServiceImpl implements IBaseService<UserDetailDTO, Long>,
     return new ResponseEntity<>(new MessageResponse("User registered successfully!"), HttpStatus.CREATED);
   }
 
-  //  private Role getRole(String role) {
-//
-//    if (role == null) {
-//      return roleRepository.findByName(RoleName.ROLE_USER)
-//              .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-//    } else {
-//      //strRoles.forEach(role -> {
-//        switch (role.toLowerCase()) {
-//          case "admin":
-//            return roleRepository.findByName(RoleName.ROLE_ADMIN)
-//                    .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-//          case "shop":
-//            return roleRepository.findByName(RoleName.ROLE_SHOP)
-//                    .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-//          default:
-//            return roleRepository.findByName(RoleName.ROLE_USER)
-//                    .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-//        }
-//      //});
-//    }
-//  }
-//
   private Role getRole(String strRole) {
     if (strRole == null || strRole.equals("")) {
       return roleRepository.findByName(RoleName.ROLE_USER)
@@ -161,10 +138,6 @@ public class UserDetailServiceImpl implements IBaseService<UserDetailDTO, Long>,
 
   @Override
   public List<UserDetailDTO> findAll() {
-    return createFromEntities(repository.findAll());
-  }
-
-  public List<UserDetailDTO> findAllByProduct() {
     return createFromEntities(repository.findAll());
   }
 
@@ -200,22 +173,30 @@ public class UserDetailServiceImpl implements IBaseService<UserDetailDTO, Long>,
 
   @Override
   public UserDetailDTO save(UserDetailDTO dto) {
-    User entity = createFromD(dto);
-    repository.save(entity);
-    updateDetail(dto);
-    return createFromE(entity);
+    try {
+      User entity = createFromD(dto);
+      repository.save(entity);
+      updateDetail(dto);
+      return createFromE(entity);
+    } catch (Exception e) {
+      return null;
+    }
   }
 
-  @Transactional
   @Override
   public UserDetailDTO delete(Long id) {
     Optional<User> entity = Optional.ofNullable(repository.findById(id)
             .orElseThrow(() -> new NotFoundException(User.class, id)));
-    userDetailRepository.delete(getDetail(id));
-    repository.delete(entity.get());
+    System.out.println(entity.get().getId());
+    try {
+      userDetailRepository.delete(getDetail(id));
+      repository.delete(entity.get());
+    } catch (Exception e) {
+
+    }
+
 
     return createFromE(entity.get());
-
   }
 
   @Override
@@ -230,11 +211,15 @@ public class UserDetailServiceImpl implements IBaseService<UserDetailDTO, Long>,
   @Override
   public UserDetailDTO createFromE(User entity) {
     UserDetailDTO dto = modelMapper.map(entity, UserDetailDTO.class);
-    UserDetail detail = this.getDetail(entity.getId());
-    dto.setAddress(detail.getAddress());
-    dto.setRole(entity.getRole().getName());
-    dto.setFirstName(detail.getFirstName());
-    dto.setLastName(detail.getLastName());
+    try {
+      UserDetail detail = this.getDetail(entity.getId());
+      dto.setAddress(detail.getAddress());
+      dto.setRole(entity.getRole().getName());
+      dto.setFirstName(detail.getFirstName());
+      dto.setLastName(detail.getLastName());
+    } catch (Exception e) {
+
+    }
     dto.setPassword("");
     return dto;
   }

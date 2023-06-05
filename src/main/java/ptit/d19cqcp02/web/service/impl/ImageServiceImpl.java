@@ -62,6 +62,7 @@ public class ImageServiceImpl implements IBaseService<ImageDTO, Long>, IModelMap
 
     public Image createFromD(ImageDTO dto) {
         Image entity = modelMapper.map(dto, Image.class);
+        entity.setProduct(productRepository.findById(dto.getProductId()).get());
         return entity;
     }
 
